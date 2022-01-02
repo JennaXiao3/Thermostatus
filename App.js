@@ -7,8 +7,6 @@ import { firebase } from './src/constants/FirebaseConfig';
 
 const db = firebase.firestore();
 
-console.log("hi");
-
 export default function App() {
 
 
