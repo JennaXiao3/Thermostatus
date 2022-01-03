@@ -8,8 +8,9 @@ import { render } from 'react-dom';
 import { firebase } from './src/constants/FirebaseConfig';
 
 //importing screen components
-import { StartScreen } from './StartScreen.js';
-import { HomeScreen } from './HomeScreen.js';
+import { StartScreen } from './Screens/StartScreen.js';
+import { HomeScreen } from './Screens/HomeScreen.js';
+import { ManageHomes } from './Screens/ManageHomesScreen';
 
 //navigation
 const Stack = createNativeStackNavigator();
@@ -23,6 +24,7 @@ export default function App() {
       <Stack.Navigator initialRouteName='start'>
         <Stack.Screen name="home" component={HomeScreen} />
         <Stack.Screen name='start' component={StartScreen} />
+        <Stack.Screen name='managehomes' component={ManageHomes}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
