@@ -1,19 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer, StackActions } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, Text, View, Image } from 'react-native';
 //import * as firebase from "firebase";
 import { render } from 'react-dom';
 import { firebase } from './src/constants/FirebaseConfig';
+
+//importing screen components
+import { StartScreen } from 'StartScreen';
+import { HomeScreen } from 'HomeScreen';
+
+//navigation
+const Stack = createNativeStackNavigator();
 
 const db = firebase.firestore();
 
 export default function App() {
 
   return (
-    <View style={styles.container}>
-      <Text>CONGRATS THIS APP FINALLY WORKS</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='start'>
+        <Stack.Screen name="home" component={HomeScreen} />
+        <Stack.Screen name='start' component={StartScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
