@@ -12,6 +12,7 @@ export const StartScreen = ({navigation}) => {
     useEffect(
         () => {
             Geolocation.getCurrentPosition((position) => {
+                //setPositionNow(position)?
                 console.log(position);
                 console.log(positionNow);
             }, (error) => {
