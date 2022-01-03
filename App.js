@@ -8,8 +8,8 @@ import { render } from 'react-dom';
 import { firebase } from './src/constants/FirebaseConfig';
 
 //importing screen components
-import { StartScreen } from 'StartScreen';
-import { HomeScreen } from 'HomeScreen';
+import { StartScreen } from './StartScreen.js';
+import { HomeScreen } from './HomeScreen.js';
 
 //navigation
 const Stack = createNativeStackNavigator();

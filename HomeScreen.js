@@ -3,9 +3,9 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 
-export const HomeScreen = (props) => {
+export const HomeScreen = () => {
     return(
-        <View style={styles.container}>
+        <View style={styles.screenContainer}>
             <Text>CONGRATS THIS APP FINALLY WORKS</Text>
             <Image source={{uri: "https://thumbs.dreamstime.com/b/puppies-celebrating-birthday-singing-14013137.jpg"}}
             style={{width: 200, height: 200}}></Image>
@@ -13,3 +13,12 @@ export const HomeScreen = (props) => {
       </View>
     );
 }
+
+const styles = StyleSheet.create({
+    screenContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'pink',
+    }
+});
