@@ -28,7 +28,7 @@ export const StartScreen = ({navigation}) => {
             <Text>Starting Screen</Text>
             <Text>{positionNow}</Text>
             <TouchableOpacity onPress={() => navigation.navigate('home')}>
-                Go to Home Page.
+                <Text>Go to Home Page.</Text>
             </TouchableOpacity>
         </View>
     )
