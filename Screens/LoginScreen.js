@@ -13,6 +13,7 @@ export const LoginScreen = ({navigation}, props) => {
       // Signed in 
       var user = userCredential.user;
       // ...
+      alert("You have been registered!");
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -22,19 +23,21 @@ export const LoginScreen = ({navigation}, props) => {
     });
   }
 
-  //const auth = getAuth();
-  /*
-  firebase.auth().signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorMessage);
-    });*/
+  const onLogInPress = () => {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        alert("You are logged in!");
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert("You haven't registered yet :(");
+        console.log(errorMessage);
+      });
+    }
 
 
   return (
@@ -65,7 +68,7 @@ export const LoginScreen = ({navigation}, props) => {
 
       <View style = {styles.buttonContainer}>
         <TouchableOpacity
-          onPress = {() => { }}
+          onPress = {onLogInPress}
           style = {styles.button}
         >
           <Text style = {styles.buttonText}>Login</Text>
