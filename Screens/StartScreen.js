@@ -6,8 +6,9 @@ import { requestAuthorization } from 'react-native-geolocation-service';
 import Geolocation from 'react-native-geolocation-service';
 
 export const StartScreen = ({navigation}) => {
+  
     const [positionNow, setPositionNow] = useState('hi');
-
+/*
     //geolocation upon mounting
     useEffect(
         () => {
@@ -21,7 +22,7 @@ export const StartScreen = ({navigation}) => {
                 )
             })
         }, 
-    []);
+    []);*/
 
     return(
         <View style={styles.screenContainer}>
@@ -29,6 +30,9 @@ export const StartScreen = ({navigation}) => {
             <Text>{positionNow}</Text>
             <TouchableOpacity onPress={() => navigation.navigate('home')}>
                 <Text>Go to Home Page.</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('login')}>
+                <Text>Go to Login Page.</Text>
             </TouchableOpacity>
         </View>
     )
@@ -39,6 +43,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'periwinkle'
+        backgroundColor: '#CCCCFF'
     }
 });

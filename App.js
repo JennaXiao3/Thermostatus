@@ -11,6 +11,7 @@ import { firebase } from './src/constants/FirebaseConfig';
 import { StartScreen } from './Screens/StartScreen.js';
 import { HomeScreen } from './Screens/HomeScreen.js';
 import { ManageHomes } from './Screens/ManageHomesScreen';
+import { LoginScreen } from './Screens/LoginScreen.js';
 
 //navigation
 const Stack = createNativeStackNavigator();
@@ -22,8 +23,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='start'>
-        <Stack.Screen name="home" component={HomeScreen} />
+        <Stack.Screen name='home' component={HomeScreen} />
         <Stack.Screen name='start' component={StartScreen} />
+        <Stack.Screen name='login' component={LoginScreen} />
         <Stack.Screen name='managehomes' component={ManageHomes}/>
       </Stack.Navigator>
     </NavigationContainer>
