@@ -6,34 +6,50 @@ import { requestAuthorization } from 'react-native-geolocation-service';
 import Geolocation from 'react-native-geolocation-service';
 
 export const StartScreen = ({navigation}) => {
-  
-    const [positionNow, setPositionNow] = useState('hi');
-/*
+
+    const [positionNow, setPositionNow] = useState(null);
+    const [ watchPosition, setWatchPosition ] = useState(null);
+ 
     //geolocation upon mounting
     useEffect(
         () => {
             Geolocation.getCurrentPosition((position) => {
-                //setPositionNow(position)?
-                console.log(position);
-                console.log(positionNow);
+                setPositionNow(() => position.coords);
             }, (error) => {
                 console.log(
                     `This is why location isn't working: ${error.code}, ${error.message}`
                 )
-            })
+            });
+
+            Geolocation.watchPosition(
+                (position) => {
+                    setWatchPosition(() => position.coords);
+                }, (error) => {
+                    console.log('rip')
+                }
+            );
         }, 
-    []);*/
+    []);
+
+
+    function handleClick() {
+        console.log(watchPosition);
+    }
+
 
     return(
         <View style={styles.screenContainer}>
             <Text>Starting Screen</Text>
-            <Text>{positionNow}</Text>
             <TouchableOpacity onPress={() => navigation.navigate('home')}>
                 <Text>Go to Home Page.</Text>
             </TouchableOpacity>
+
+            <Button title="try me" onPress={handleClick} > </Button>
+
             <TouchableOpacity onPress={() => navigation.navigate('login')}>
                 <Text>Go to Login Page.</Text>
             </TouchableOpacity>
+
         </View>
     )
 }
