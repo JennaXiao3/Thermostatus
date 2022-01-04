@@ -34,10 +34,6 @@ export const StartScreen = ({navigation}) => {
     []);
 
     function handleClick() {
-        console.log('hi');
-        //console.log(positionNow);
-        //console.log(positionNow.latitude);
-
         console.log(watchPosition);
     }
 
