@@ -1,9 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native';
+import { firebase } from '../src/constants/FirebaseConfig';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export const LoginScreen = ({navigation}, props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const onSignUpPress = () => {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // Signed in 
+      var user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorMessage);
+      // ..
+    });
+  }
+
+  //const auth = getAuth();
+  /*
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorMessage);
+    });*/
+
 
   return (
     <KeyboardAvoidingView
@@ -19,6 +51,7 @@ export const LoginScreen = ({navigation}, props) => {
           value = {email}
           onChangeText = {text => setEmail(text)}
           style = {styles.input}
+          autoCapitalize="none"
         />
         <TextInput  
           placeholder = "Password"
@@ -26,6 +59,7 @@ export const LoginScreen = ({navigation}, props) => {
           onChangeText = {text => setPassword(text)}
           style = {styles.input}
           secureTextEntry
+          autoCapitalize="none"
         />
       </View>
 
@@ -37,7 +71,7 @@ export const LoginScreen = ({navigation}, props) => {
           <Text style = {styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress = {() => { }}
+          onPress = {onSignUpPress}
           style = {[styles.button, styles.buttonOutline]}
         >
           <Text style ={styles.buttonOutlineText}>Register</Text>

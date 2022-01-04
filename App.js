@@ -16,9 +16,11 @@ import { LoginScreen } from './Screens/LoginScreen.js';
 //navigation
 const Stack = createNativeStackNavigator();
 
-const db = firebase.firestore();
+const database = firebase.database();
 
 export default function App() {
+  
+  database.ref().set({test: "value"});
 
   return (
     <NavigationContainer>
