@@ -21,6 +21,7 @@ const database = firebase.database();
 export default function App() {
   
   database.ref().set({test: "value"});
+  database.ref().update({try: "connie's attempt"});
 
   return (
     <NavigationContainer>
