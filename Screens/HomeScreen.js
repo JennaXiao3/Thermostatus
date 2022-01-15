@@ -13,21 +13,16 @@ export const HomeScreen = ({navigation}, props) => {
     //geolocation upon mounting
     useEffect(
         () => {
-            Geolocation.getCurrentPosition((position) => {
-                setInterval(() => {
-                    setPositionNow(() => position.coords);
-                    setCurrentTime(() => Date.now);
-                }, 10000);
-                
-            }, (error) => {
-                console.log(
-                    `This is why location isn't working: ${error.code}, ${error.message}`
-                )
-            });
 
             Geolocation.watchPosition(
                 (position) => {
                     setWatchPosition(() => position.coords);
+                    
+                    setInterval(() => {
+                        let d = new Date;
+                        setWatchPosition(() => position.coords);
+                        setCurrentTime(() => d.getUTCSeconds());
+                    }, 2000);
                 }, (error) => {
                     console.log('rip')
                 }
@@ -37,9 +32,12 @@ export const HomeScreen = ({navigation}, props) => {
 
     const handlePress = () => {
         console.log(currentTime);
+        console.log(watchPosition);
     }
 
-
+    if (!watchPosition){
+        return <Text>Loading...</Text>;
+    }
     return(
         <View style={styles.screenContainer}>
             <Text>CONGRATS THIS APP FINALLY WORKS</Text>
@@ -50,6 +48,9 @@ export const HomeScreen = ({navigation}, props) => {
             </TouchableOpacity>
 
             <Button onPress={handlePress}/>
+            <Text>{watchPosition.latitude}</Text>
+            <Text>{currentTime}</Text>
+            
             <StatusBar style="auto" />
       </View>
     );
