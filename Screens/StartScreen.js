@@ -49,7 +49,9 @@ export const StartScreen = ({navigation}) => {
             <TouchableOpacity onPress={() => navigation.navigate('login')}>
                 <Text>Go to Login Page.</Text>
             </TouchableOpacity>
-
+            <TouchableOpacity onPress={() => navigation.navigate('signup')}>
+                <Text>Go to Signup Page</Text>
+            </TouchableOpacity>
         </View>
     )
 }

@@ -3,25 +3,32 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpaci
 import { firebase } from '../src/constants/FirebaseConfig';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
-export const LoginScreen = ({navigation}, props) => {
+export const SignupScreen = ({navigation}, props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [fullName, setFullName] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
 
-  const onLogInPress = () => {
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        alert("You are logged in!");
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert("You haven't registered yet :(");
-        console.log(errorMessage);
-      });
+  const onSignUpPress = () => {
+    if (password !== confirmPassword) {
+      alert("Passwords don't match.")
+      return
     }
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // Signed in 
+      var user = userCredential.user;
+      // ...
+      alert("You have been registered!");
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorMessage);
+      alert('Not working :(');
+      // ..
+    });
+  }
 
   return (
     <KeyboardAvoidingView
@@ -29,15 +36,24 @@ export const LoginScreen = ({navigation}, props) => {
       behaviour = "padding"
     > 
       <View style = {styles.titleContainer}>
-        <Text style = {styles.bigTitle}>Welcome Back</Text>
-        <Text style = {styles.subTitle}>Enter your email and password</Text>
+        <Text style = {styles.bigTitle}>Sign Up</Text>
+        <Text style = {styles.subTitle}>Create your account to use the thermostat</Text>
       </View>
       <View style = {styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder='Full Name'
+          onChangeText={(text) => setFullName(text)}
+          value={fullName}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
         <TextInput 
           placeholder = "Email"
           value = {email}
           onChangeText = {text => setEmail(text)}
           style = {styles.input}
+          underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
         <TextInput  
@@ -46,22 +62,32 @@ export const LoginScreen = ({navigation}, props) => {
           onChangeText = {text => setPassword(text)}
           style = {styles.input}
           secureTextEntry
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
+        <TextInput
+          style={styles.input}
+          secureTextEntry
+          placeholder='Confirm Password'
+          onChangeText={(text) => setConfirmPassword(text)}
+          value={confirmPassword}
+          underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
       </View>
 
       <View style = {styles.buttonContainer}>
         <TouchableOpacity
-          onPress = {onLogInPress}
+          onPress = {onSignUpPress}
           style = {styles.button}
         >
-          <Text style = {styles.buttonText}>Login</Text>
+          <Text style ={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
-      <View style = {styles.signUpText}>
-        <Text>Don't have an account? </Text>
-        <Text style = {styles.linkToSignUp}
-              onPress={() => navigation.navigate('signup')}>Sign Up</Text>
+      <View style = {styles.logInText}>
+        <Text>Already have an account? </Text>
+        <Text style = {styles.linkToLogIn}
+              onPress={() => navigation.navigate('login')}>Log In</Text>
       </View>
   </KeyboardAvoidingView>
   )
@@ -88,15 +114,18 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'column',
+    justifyContent: 'center',
     paddingBottom: 25
   },
   bigTitle: {
     fontSize: 36,
+    textAlign: 'center'
   },
   subTitle: {
     fontSize: 16,
     paddingTop: 10,
-    paddingBottom: 50
+    paddingBottom: 50,
+    textAlign: 'center'
   },
   button: {
     backgroundColor: '#0782F9',
@@ -105,27 +134,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
   },
-  buttonOutline: {
-    backgroundColor: 'white',
-    marginTop: 5,
-    borderColor: '#0782F9',
-    borderWidth: 2,
-  },
   buttonText: {
     color: 'white',
     fontWeight: '700',
     fontSize: 15,
   },
-  buttonOutlineText: {
-    color: '#0782F9',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  signUpText: {
+  logInText: {
     flexDirection: 'row',
     paddingTop: 20
   },
-  linkToSignUp: {
+  linkToLogIn: {
     color: '#979797',
     fontWeight: 'bold'
   }
