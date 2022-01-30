@@ -13,7 +13,6 @@ export const HomeScreen = ({navigation}, props) => {
     //geolocation upon mounting
     useEffect(
         () => {
-
             Geolocation.watchPosition(
                 (position) => {
                     setWatchPosition(() => position.coords);
