@@ -10,12 +10,30 @@ const database = firebase.database();
 
 // creating a new home
 export function CreateHomeScreen({navigation}) {
+    const [homeName, setHomeName] = useState(null);
+    const [homeAddress, setHomeAddress] = useState(null);
 
     return(
         <View style={styles.screenContainer}>
-            <Text>Create new home</Text>
+            <Text style={styles.title}>Create new home</Text>
+            <Text style={styles.subtitle}>Give your Home a name and address.</Text>
+            <TextInput
+             style={styles.input}
+             onChangeText={setHomeName}
+             value={homeName}
+             placeholder='Home Name'
+             placeholderTextColor='black'
+             />
+
+            <TextInput
+             style={styles.input}
+             onChangeText={setHomeAddress}
+             value={homeAddress}
+             placeholder='Home Address'
+             placeholderTextColor='black'
+             />
             
-            <TouchableOpacity onPress={() => navigation.navigate('home')}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('home')}>
                 <Text>Next (to homescreen)</Text>
             </TouchableOpacity>
             
@@ -108,10 +126,10 @@ const styles = StyleSheet.create({
         
     },
     input: {
-        flex: 1,
         width: 300,
         alignItems: 'center',
         justifyContent: 'center',
-        textAlign: 'center'
+        textAlign: 'center',
+        margin: '1vh',
     }
 });
