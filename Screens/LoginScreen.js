@@ -1,11 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Linking } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native';
 import { firebase } from '../src/constants/FirebaseConfig';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export const LoginScreen = ({navigation}, props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const onSignUpPress = () => {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // Signed in 
+      var user = userCredential.user;
+      // ...
+      alert("You have been registered!");
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorMessage);
+      // ..
+    });
+  }
 
   const onLogInPress = () => {
     firebase.auth().signInWithEmailAndPassword(email, password)
@@ -23,14 +39,14 @@ export const LoginScreen = ({navigation}, props) => {
       });
     }
 
+
   return (
     <KeyboardAvoidingView
       style = {styles.container}
       behaviour = "padding"
     > 
       <View style = {styles.titleContainer}>
-        <Text style = {styles.bigTitle}>Welcome Back</Text>
-        <Text style = {styles.subTitle}>Enter your email and password</Text>
+        <Text style = {styles.bigTitle}>Login</Text>
       </View>
       <View style = {styles.inputContainer}>
         <TextInput 
@@ -57,11 +73,12 @@ export const LoginScreen = ({navigation}, props) => {
         >
           <Text style = {styles.buttonText}>Login</Text>
         </TouchableOpacity>
-      </View>
-      <View style = {styles.signUpText}>
-        <Text>Don't have an account? </Text>
-        <Text style = {styles.linkToSignUp}
-              onPress={() => navigation.navigate('signup')}>Sign Up</Text>
+        <TouchableOpacity
+          onPress = {onSignUpPress}
+          style = {[styles.button, styles.buttonOutline]}
+        >
+          <Text style ={styles.buttonOutlineText}>Register</Text>
+        </TouchableOpacity>
       </View>
   </KeyboardAvoidingView>
   )
@@ -81,28 +98,25 @@ const styles = StyleSheet.create({
     width: 300
   },
   buttonContainer: {
-    width: '80%',
+    width: '60%',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 40,
   },
   titleContainer: {
-    flexDirection: 'column',
+    flexDirection: 'row',
+    textAlign: 'left',
     paddingBottom: 25
   },
   bigTitle: {
     fontSize: 36,
-  },
-  subTitle: {
-    fontSize: 16,
-    paddingTop: 10,
-    paddingBottom: 50
+    textAlign: 'left',
   },
   button: {
     backgroundColor: '#0782F9',
-    width: '100%', /* to change width of button, got to buttonContainer */
+    width: '100%',
     padding: 15,
-    borderRadius: 20,
+    borderRadius: 10,
     alignItems: 'center',
   },
   buttonOutline: {
@@ -120,13 +134,5 @@ const styles = StyleSheet.create({
     color: '#0782F9',
     fontWeight: '700',
     fontSize: 16,
-  },
-  signUpText: {
-    flexDirection: 'row',
-    paddingTop: 20
-  },
-  linkToSignUp: {
-    color: '#979797',
-    fontWeight: 'bold'
   }
 })
