@@ -11,6 +11,7 @@ export const HomeScreen = ({navigation}, props) => {
     const [ currentTime, setCurrentTime ] = useState('now');
  
     //geolocation upon mounting
+    // issue: why does it take so long to load
     useEffect(
         () => {
             Geolocation.watchPosition(
@@ -21,7 +22,7 @@ export const HomeScreen = ({navigation}, props) => {
                         let d = new Date;
                         setWatchPosition(() => position.coords);
                         setCurrentTime(() => d.getUTCSeconds());
-                    }, 2000);
+                    }, 10000);
                 }, (error) => {
                     console.log('rip')
                 }

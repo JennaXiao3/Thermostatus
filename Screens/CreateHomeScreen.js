@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Button, TextInput } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
+import * as Location from 'expo-location';
 
 // firebase
 import { firebase } from '../src/constants/FirebaseConfig';
@@ -10,8 +11,23 @@ const database = firebase.database();
 
 // creating a new home
 export function CreateHomeScreen({navigation}) {
-    const [homeName, setHomeName] = useState(null);
-    const [homeAddress, setHomeAddress] = useState(null);
+    const [homeName, setHomeName] = useState("");
+    const [homeAddress, setHomeAddress] = useState("");
+    const [homeGeocode, setHomeGeocode] = useState(null);
+
+    useEffect(() => {
+        Location.setGoogleApiKey("AIzaSyCL19fVJbd8NIPC53P_WNrL5CcfhEOff9k");
+    });
+
+    function onPress(address) {
+        setHomeGeocode(() => {
+            return Location.geocodeAsync(address);
+        });
+    }
+
+    function checkGeocode() {
+        console.log(homeGeocode);
+    }
 
     return(
         <View style={styles.screenContainer}>
@@ -32,7 +48,16 @@ export function CreateHomeScreen({navigation}) {
              placeholder='Home Address'
              placeholderTextColor='black'
              />
-            
+
+            <TouchableOpacity  style={styles.button} onPress={() => onPress(homeAddress)}>
+                <Text>printing geocode</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity  style={styles.button} onPress={checkGeocode}>
+                <Text>printing geocode</Text>
+            </TouchableOpacity>
+
+
             <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('home')}>
                 <Text>Next (to homescreen)</Text>
             </TouchableOpacity>
@@ -83,7 +108,9 @@ export function JoinHomeScreen({navigation}) {
 
 // function that takes code and checks if it is in the database
 function checkInDatabase(code) {
-    //database.ref()
+    //first check existence
+    
+    // 
 }
 
 

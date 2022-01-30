@@ -13,6 +13,7 @@
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "expo": "^44.0.3",
+    "expo-location": "~14.0.1",
     "expo-status-bar": "~1.2.0",
     "firebase": "^8.2.3",
     "firebase-cli": "^1.2.0",
