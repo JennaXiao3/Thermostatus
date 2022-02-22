@@ -43,19 +43,23 @@ export const StartScreen = ({navigation}) => {
             <TouchableOpacity onPress={() => navigation.navigate('home')}>
                 <Text>Go to Home Page.</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => navigation.navigate('createhome')}>
-                <Text>Create new home.</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => navigation.navigate('joinhome')}>
-                <Text>Join existing home.</Text>
-            </TouchableOpacity>
-
-            <Button title="try me" onPress={handleClick} > </Button>
-
             <TouchableOpacity onPress={() => navigation.navigate('login')}>
                 <Text>Go to Login Page.</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('signup')}>
+                <Text>Go to Signup Page</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('addthermostat')}>
+                <Text>Go to Add Thermostat Page</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('joinhome')}>
+                <Text>Go to Join Home Page</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('createhome')}>
+                <Text>Go to Create Home Page</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('setpreferences')}>
+                <Text>Go to Set Preferences Page</Text>
             </TouchableOpacity>
 
         </View>

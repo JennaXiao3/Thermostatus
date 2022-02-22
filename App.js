@@ -11,8 +11,12 @@ import { firebase } from './src/constants/FirebaseConfig';
 import { StartScreen } from './Screens/StartScreen.js';
 import { HomeScreen } from './Screens/HomeScreen.js';
 import { ManageHomes } from './Screens/ManageHomesScreen';
-import { LoginScreen } from './Screens/LoginScreen.js';
-import { CreateHomeScreen, JoinHomeScreen } from './Screens/CreateHomeScreen';
+import { LoginScreen } from './Screens/LoginScreen';
+import { SignupScreen } from './Screens/SignupScreen';
+import { AddThermostat } from './Screens/AddThermostat';
+import { JoinHome } from './Screens/JoinHome';
+import { CreateHome } from './Screens/CreateHome';
+import { SetPreferences } from './Screens/SetPreferences';
 
 
 //navigation
@@ -29,14 +33,17 @@ export default function App() {
         <Stack.Screen name='home' component={HomeScreen} />
         <Stack.Screen name='start' component={StartScreen} />
         <Stack.Screen name='login' component={LoginScreen} />
+        <Stack.Screen name='signup' component={SignupScreen} />
         <Stack.Screen name='managehomes' component={ManageHomes}/>
-        <Stack.Screen name='createhome' component={CreateHomeScreen}/>
-        <Stack.Screen name='joinhome' component={JoinHomeScreen}/>
+        <Stack.Screen name='addthermostat' component={AddThermostat}/>
+        <Stack.Screen name='joinhome' component={JoinHome}/>
+        <Stack.Screen name='createhome' component={CreateHome}/>
+        <Stack.Screen name='setpreferences' component={SetPreferences}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
+/*
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -44,4 +51,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+});*/
