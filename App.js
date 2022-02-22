@@ -12,6 +12,8 @@ import { StartScreen } from './Screens/StartScreen.js';
 import { HomeScreen } from './Screens/HomeScreen.js';
 import { ManageHomes } from './Screens/ManageHomesScreen';
 import { LoginScreen } from './Screens/LoginScreen.js';
+import { CreateHomeScreen, JoinHomeScreen } from './Screens/CreateHomeScreen';
+
 
 //navigation
 const Stack = createNativeStackNavigator();
@@ -19,8 +21,7 @@ const Stack = createNativeStackNavigator();
 const database = firebase.database();
 
 export default function App() {
-  
-  database.ref().set({test: "value"});
+  database.ref().update({try: "connie's attempt"});
 
   return (
     <NavigationContainer>
@@ -29,6 +30,8 @@ export default function App() {
         <Stack.Screen name='start' component={StartScreen} />
         <Stack.Screen name='login' component={LoginScreen} />
         <Stack.Screen name='managehomes' component={ManageHomes}/>
+        <Stack.Screen name='createhome' component={CreateHomeScreen}/>
+        <Stack.Screen name='joinhome' component={JoinHomeScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

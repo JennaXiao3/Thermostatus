@@ -44,6 +44,14 @@ export const StartScreen = ({navigation}) => {
                 <Text>Go to Home Page.</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity onPress={() => navigation.navigate('createhome')}>
+                <Text>Create new home.</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigation.navigate('joinhome')}>
+                <Text>Join existing home.</Text>
+            </TouchableOpacity>
+
             <Button title="try me" onPress={handleClick} > </Button>
 
             <TouchableOpacity onPress={() => navigation.navigate('login')}>
