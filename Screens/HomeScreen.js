@@ -2,7 +2,6 @@ import { CurrentRenderContext } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native';
-import Geolocation from 'react-native-geolocation-service';
 
 export const HomeScreen = ({navigation}, props) => {
 
@@ -12,32 +11,12 @@ export const HomeScreen = ({navigation}, props) => {
  
     //geolocation upon mounting
     // issue: why does it take so long to load
-    useEffect(
-        () => {
-            Geolocation.watchPosition(
-                (position) => {
-                    setWatchPosition(() => position.coords);
-                    
-                    setInterval(() => {
-                        let d = new Date;
-                        setWatchPosition(() => position.coords);
-                        setCurrentTime(() => d.getUTCSeconds());
-                    }, 10000);
-                }, (error) => {
-                    console.log('rip')
-                }
-            );
-        }, 
-    []);
 
     const handlePress = () => {
         console.log(currentTime);
-        console.log(watchPosition);
+        //console.log(watchPosition);
     }
-
-    if (!watchPosition){
-        return <Text>Loading...</Text>;
-    }
+    
     return(
         <View style={styles.screenContainer}>
             <Text>CONGRATS THIS APP FINALLY WORKS</Text>
@@ -48,7 +27,7 @@ export const HomeScreen = ({navigation}, props) => {
             </TouchableOpacity>
 
             <Button onPress={handlePress}/>
-            <Text>{watchPosition.latitude}</Text>
+            {/*<Text>{watchPosition.latitude}</Text>*/}
             <Text>{currentTime}</Text>
             
             <StatusBar style="auto" />
