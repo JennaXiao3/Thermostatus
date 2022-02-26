@@ -62,6 +62,11 @@ export const StartScreen = ({navigation}) => {
                 <Text>Go to Set Preferences Page</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity onPress={() => {
+                console.log(watchPosition);
+                }}>
+                <Text>Check geolocation</Text>
+            </TouchableOpacity>
         </View>
     )
 }

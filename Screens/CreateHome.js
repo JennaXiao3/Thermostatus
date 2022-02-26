@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, View, TextInput, ScrollView, Button, ActivityIndicator, TouchableOpacity } from 'react-native';
 //import Geolocation from 'react-native-geolocation-service';
 import * as Location from 'expo-location';
-import { GoogleAutoComplete } from 'react-native-google-autocomplete';
 import { LocationItem } from '../src/components/LocationItem';
+import axios from 'axios';
+import Geolocation from 'react-native-geolocation-service';
 
 // firebase
 import { firebase } from '../src/constants/FirebaseConfig';
@@ -16,36 +17,109 @@ export function CreateHome({navigation}) {
     const [homeName, setHomeName] = useState("");
     const [homeAddress, setHomeAddress] = useState("");
     const [homeGeocode, setHomeGeocode] = useState(null);
+    const [watchPosition, setWatchPosition] = useState(null);
 
-    useEffect(() => {
-        Location.setGoogleApiKey("AIzaSyCL19fVJbd8NIPC53P_WNrL5CcfhEOff9k");
-    });
+    const geocoding= (address) => {
+      let addressIsString = (typeof(address) == 'string');
 
-    function onPress(address) {
-        setHomeGeocode(() => {
-            return Location.geocodeAsync(address);
+      if (addressIsString) {
+        const params = {
+          access_key: 'f1d5ed3c2d2419317b30ae90e82950eb',
+          query: address,
+        }
+        
+        axios.get('http://api.positionstack.com/v1/forward', {params})
+          .then(response => {
+            // instead of console.logging, set home coords to data (long, lat) in Firebase
+            console.log(response.data);
+
+          }).catch(error => {
+            console.log(error);
+          });
+      }
+  }
+
+    useEffect(
+      () => {
+          Geolocation.watchPosition(
+              (position) => {
+                  setWatchPosition(() => position.coords);
+              }, (error) => {
+                  console.log('rip')
+              }
+          );
+        }, 
+    []);
+
+    // actually make this to check home code
+    const getUsers = () => {
+      axios.get('http://localhost:5000/search/getUsers')
+        .then(response => {
+          console.log(response.data);
+
+        }).catch(error => {
+          console.log(error);
         });
     }
 
-    function checkGeocode() {
-        console.log(homeGeocode);
+    // fetching all houses
+    const getHouseCodes = () => {
+      let houseCodes = [];
+      axios.get('http://localhost:5000/search/getHouseCodes')
+        .then(response => {
+          let data = response.data;
+          console.log(response.data);
+          data.forEach((item) => {
+            houseCodes.push(item);
+          });
+
+        }).catch(error => {
+          console.log(error);
+        });
+      
+        return houseCodes;
+    }
+
+    //checking if that code is in the array
+    const codeExists = (data, code) => {
+      return data.includes(code);
+    }
+
+    const useCurrentLocation = () => {
+      // set home address to watchPosition in Firebase
+      console.log(watchPosition);
     }
 
     const onCreatePress = () => {
-      navigation.navigate('home');
-  
-      let uid = "";
-  
-      //create random 4-num iD
-      for (let i = 0; i < 4; i++) {
-        let val = Math.floor(Math.random() * 10);
-        uid = uid + val;
+      if (!(homeAddress == "")) {
+        navigation.navigate('home');
+        geocoding(homeAddress);
+    
+        const exists = true;
+        const houseCodes = getHouseCodes();
+        let houseid = "";
+
+        do {
+          //create random 4-num iD
+          for (let i = 0; i < 4; i++) {
+            let val = Math.floor(Math.random() * 10);
+            houseid = houseid + val;
+          }
+          
+          exists = codeExists(houseCodes, houseid);
+
+        } while (exists);
+
+        // if doesn't exist, add a house
       }
-      database.ref('houses/houseID').child(uid).set({
-        housename: homeName
-      });
     }
 
+    if(!watchPosition) {
+      return(
+      <View>
+        <Text>Fetching current position...</Text>
+      </View>);
+    }
       return (
         <View style = {styles.container}>
           <View style = {styles.titleContainer}>
@@ -54,38 +128,24 @@ export function CreateHome({navigation}) {
           </View>
           <TextInput 
             style = {styles.textInput}
-            placeholder = "Home Name"
+            placeholder = "Home Nickname"
             value = {homeName}
             onChangeText = {text => setHomeName(text)}
           />
-          <GoogleAutoComplete apiKey='AIzaSyCL19fVJbd8NIPC53P_WNrL5CcfhEOff9k' debounce={300} minLength={2}>
-            {({ handleTextChange, locationResults, fetchDetails, isSearching, inputValue, clearSearchs}) => (
-              <React.Fragment>
-                {console.log('locationResults', locationResults)}
-                <View style = {styles.inputWrapper}>
-                  <TextInput 
-                    style = {styles.textInput}
-                    placeholder = "Search an address"
-                    onChangeText = {handleTextChange}
-                    value = {inputValue}
-                  />
-                  {/*<Button title = "clear" onPress = {clearSearchs}></Button>*/}
-                </View>
-                {isSearching && <ActivityIndicator size = "large" color="gray"/>} 
-                {/*loading bar above - might look like glitch*/}
-                <ScrollView>
-                {locationResults.map(el => (
-                  <LocationItem
-                    {...el}
-                    key={el.id}
-                    fetchDetails={fetchDetails}
-                  />
-                ))}
-                </ScrollView>
-    
-              </React.Fragment>
-            )}
-          </GoogleAutoComplete>
+
+          <TextInput 
+            style = {styles.textInput}
+            placeholder = "Home Address"
+            value = {homeAddress}
+            onChangeText = {text => setHomeAddress(text)}
+          />
+
+          <TouchableOpacity
+            onPress={useCurrentLocation}
+            style = {[styles.button, {marginBottom: 5}]}>
+            <Text style={styles.buttonText}>Use Current Location</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity
               onPress = {onCreatePress}
               style = {styles.button}
@@ -131,7 +191,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   button: {
-    marginTop: 80,
+    marginTop: 20,
     backgroundColor: '#979797',
     width: '80%',
     borderRadius: 25,
@@ -148,3 +208,30 @@ const styles = StyleSheet.create({
 
 //AIzaSyCwUWmUHb42cz1Sn8YAWx25sKynAxCNdSY
 //AIzaSyCL19fVJbd8NIPC53P_WNrL5CcfhEOff9k
+
+/*<GoogleAutoComplete apiKey='AIzaSyCL19fVJbd8NIPC53P_WNrL5CcfhEOff9k' debounce={300} minLength={2}>
+            {({ handleTextChange, locationResults, fetchDetails, isSearching, inputValue, clearSearchs}) => (
+              <React.Fragment>
+                {console.log('locationResults', locationResults)}
+                <View style = {styles.inputWrapper}>
+                  <TextInput 
+                    style = {styles.textInput}
+                    placeholder = "Search an address"
+                    onChangeText = {handleTextChange}
+                    value = {inputValue}
+                  />
+                </View>
+                {isSearching && <ActivityIndicator size = "large" color="gray"/>} 
+                <ScrollView>
+                {locationResults.map(el => (
+                  <LocationItem
+                    {...el}
+                    key={el.id}
+                    fetchDetails={fetchDetails}
+                  />
+                ))}
+                </ScrollView>
+    
+              </React.Fragment>
+            )}
+          </GoogleAutoComplete>*/

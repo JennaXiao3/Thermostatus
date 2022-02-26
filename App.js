@@ -18,6 +18,9 @@ import { JoinHome } from './Screens/JoinHome';
 import { CreateHome } from './Screens/CreateHome';
 import { SetPreferences } from './Screens/SetPreferences';
 
+// geolocation
+import Geolocation from 'react-native-geolocation-service';
+
 
 //navigation
 const Stack = createNativeStackNavigator();
@@ -25,8 +28,24 @@ const Stack = createNativeStackNavigator();
 const database = firebase.database();
 
 export default function App() {
-  database.ref().update({try: "connie's attempt"});
+  const [watchPosition, setWatchPosition] = useState(null);
 
+    useEffect(
+      () => {
+          Geolocation.watchPosition(
+              (position) => {
+                  setWatchPosition(() => position.coords);
+              }, (error) => {
+                  console.log('rip')
+              }
+          );
+        }, 
+    []);
+
+
+  if (!watchPosition) {
+    return(<Text>Getting position...</Text>);
+  }
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='start'>
