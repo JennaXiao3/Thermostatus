@@ -5,7 +5,7 @@ const { initializeApp, applicationDefault, cert } = require('firebase-admin/app'
 const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
 const serviceAccount = require('./firebase/ada-project-43530-firebase-adminsdk-nwuic-5ae21611ae.json');
 const search = require("./routes/search");
-const post = require("./routes/post");
+const geolocation = require("./routes/geolocation");
 const dbapp = initializeApp({
   credential: cert(serviceAccount)
 });
@@ -29,4 +29,5 @@ app.listen(port, "0.0.0.0", () => {
 
 
 app.use("/search", search);
-app.use("/post", post);
+app.use("/geolocation", geolocation);
+

@@ -12,19 +12,7 @@ export const JoinHome = ({navigation}, props) => {
             <Text style = {styles.bigTitle}>Join a Home</Text>
             <Text style = {styles.subTitle}>Ask the homeowner for the code to join!</Text>
           </View>
-        {/* <SmoothPinCodeInput 
-        more info here: https://www.npmjs.com/package/react-native-smooth-pincode-input 
-          cellStyle={{
-            borderBottomWidth: 2,
-            borderColor: 'gray',
-          }}
-          cellStyleFocused={{
-            borderColor: 'black',
-          }}
-          value={code}
-          codeLength={4}
-          onTextChange={code => setCode(code)}
-        /> */}
+        
         <TouchableOpacity
           onPress = {() => navigation.navigate('home')}
           style = {styles.button}
@@ -70,3 +58,19 @@ const styles = StyleSheet.create({
     fontSize: 16
   }
 })
+
+
+
+/* <SmoothPinCodeInput 
+        more info here: https://www.npmjs.com/package/react-native-smooth-pincode-input 
+          cellStyle={{
+            borderBottomWidth: 2,
+            borderColor: 'gray',
+          }}
+          cellStyleFocused={{
+            borderColor: 'black',
+          }}
+          value={code}
+          codeLength={4}
+          onTextChange={code => setCode(code)}
+        /> */
