@@ -6,8 +6,8 @@ const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestor
 const serviceAccount = require('./firebase/ada-project-43530-firebase-adminsdk-nwuic-5ae21611ae.json');
 
 const search = require("./routes/search");
+const geolocation = require("./routes/geolocation");
 const update = require("./routes/update");
-
 const dbapp = initializeApp({
   credential: cert(serviceAccount)
 });
@@ -31,4 +31,6 @@ app.listen(port, "0.0.0.0", () => {
 
 
 app.use("/search", search);
+app.use("/geolocation", geolocation);
 app.use("/update", update);
+
