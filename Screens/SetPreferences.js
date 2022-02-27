@@ -3,6 +3,30 @@ import React, { Component, useState } from 'react';
 
 export const SetPreferences = ({navigation}, props) => {
   const [temp, setTemp] = useState('')
+  
+  const onNextPress = () => {
+
+    // must be able to get the user's email somehow --> rn a random one
+    let data = {
+      email: "randomemail@gmail.com",
+      temperature: temp
+    }
+    
+    fetch('http://localhost:5000/update/setTemp', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: data,
+
+      }).then(response => {
+        console.log(response.data);
+      }).catch(error => {
+        console.log(error);
+      });
+
+    navigation.navigate('home')
+  }
 
   return (
     <View style = {styles.container}>
@@ -18,7 +42,7 @@ export const SetPreferences = ({navigation}, props) => {
         value = {temp}
       />
       <TouchableOpacity
-        onPress = {() => navigation.navigate('home')}
+        onPress = {onNextPress}
         style = {styles.button}
         >
           <Text style={styles.buttonText}>Next</Text>
