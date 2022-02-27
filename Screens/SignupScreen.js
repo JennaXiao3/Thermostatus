@@ -30,6 +30,28 @@ export const SignupScreen = ({navigation}, props) => {
         fullname: fullName,
         password: password,
       });
+
+      const name = fullName.split(" ");
+      // change sign up page to include first name and last name separately
+      let data = {
+        firstName: name[0],
+        lastName: name[1],
+        email: email
+      };
+      
+      fetch('http://localhost:5000/update/setUsers', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: data,
+
+      }).then(response => {
+        console.log(response.data);
+      }).catch(error => {
+        console.log(error);
+      });
+      
       
     })
     .catch((error) => {

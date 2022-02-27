@@ -27,8 +27,21 @@ export function CreateHome({navigation}) {
           access_key: 'f1d5ed3c2d2419317b30ae90e82950eb',
           query: address,
         }
+
+        /* use http://localhost:5000/update/setHome
+           and for the body, create a json object (in this case, called "data") with the following format
+
+           let data = {
+              code: [home code from above]
+              email: [the email of the user who created it]
+              longitude: [of home]
+              latititude: [of home]
+              houseName: [homeName] 
+           }
+
+        */
         
-        axios.get('http://api.positionstack.com/v1/forward', {params})
+        axios.get('http://localhost:5000/update/setHome', {params})
           .then(response => {
             // instead of console.logging, set home coords to data (long, lat) in Firebase
             console.log(response.data);
