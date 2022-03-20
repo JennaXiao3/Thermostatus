@@ -1,5 +1,7 @@
 import { Text, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import React, { Component, useState } from 'react';
+import { firebase } from '../src/constants/FirebaseConfig';
+import axios from 'axios';
 
 export const SetPreferences = ({navigation}, props) => {
   const [temp, setTemp] = useState('')
@@ -8,10 +10,17 @@ export const SetPreferences = ({navigation}, props) => {
 
     // must be able to get the user's email somehow --> rn a random one
     let data = {
-      email: "randomemail@gmail.com",
+      email: firebase.auth().currentUser.email,
       temperature: temp
     }
-    
+
+    axios.post('http://localhost:5000/update/setTemp', data)
+      .then(response => {
+        console.log(response);
+      }).catch(error => {
+        console.log(response);
+      })
+    /*
     fetch('http://localhost:5000/update/setTemp', {
         method: "POST",
         headers: {
@@ -23,7 +32,7 @@ export const SetPreferences = ({navigation}, props) => {
         console.log(response.data);
       }).catch(error => {
         console.log(error);
-      });
+      });*/
 
     navigation.navigate('home')
   }

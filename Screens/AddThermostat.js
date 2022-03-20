@@ -1,10 +1,17 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React, { Component, useState } from 'react';
+import { firebase } from '../src/constants/FirebaseConfig';
 //import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 
 
 export const AddThermostat = ({navigation}, props) => {
     const [code, setCode] = useState('')
+
+    const add = () => {
+      // this is was just for testing
+      console.log(firebase.auth().currentUser.email);
+      navigation.navigate('start');
+    }
 
     return (
       <View style = {styles.container}>
@@ -26,7 +33,7 @@ export const AddThermostat = ({navigation}, props) => {
           onTextChange={code => setCode(code)}
         /> */}
         <TouchableOpacity
-          onPress = {() => navigation.navigate('start')}
+          onPress = {add}
           style = {styles.button}
           >
             <Text style={styles.buttonText}>Next</Text>

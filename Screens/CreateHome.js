@@ -27,30 +27,8 @@ export function CreateHome({navigation}) {
           access_key: 'f1d5ed3c2d2419317b30ae90e82950eb',
           query: address,
         }
-
-        /* use http://localhost:5000/update/setHome
-           and for the body, create a json object (in this case, called "data") with the following format
-
-           let data = {
-              code: [home code from above]
-              email: [the email of the user who created it]
-              longitude: [of home]
-              latititude: [of home]
-              houseName: [homeName] 
-           }
-
-        */
-        
-        axios.get('http://localhost:5000/update/setHome', {params})
-          .then(response => {
-            // instead of console.logging, set home coords to data (long, lat) in Firebase
-            console.log(response.data);
-
-          }).catch(error => {
-            console.log(error);
-          });
       }
-  }
+    }
 
     useEffect(
       () => {
@@ -108,7 +86,7 @@ export function CreateHome({navigation}) {
         navigation.navigate('home');
         geocoding(homeAddress);
     
-        const exists = true;
+        let exists = true;
         const houseCodes = getHouseCodes();
         let houseid = "";
 
@@ -124,15 +102,50 @@ export function CreateHome({navigation}) {
         } while (exists);
 
         // if doesn't exist, add a house
+
+        let data = {
+          code: houseid,
+          email: firebase.auth().currentUser.email,
+          houseName: homeName
+        }
+        /* use http://localhost:5000/update/setHome
+           and for the body, create a json object (in this case, called "data") with the following format
+
+           let data = {
+              code: [home code from above],
+              email: [the email of the user who created it],
+              longitude: [of home],
+              latititude: [of home],
+              houseName: [homeName] 
+           }
+
+        */
+        axios.post('http://localhost:5000/update/setHome', data)
+           .then(response => {
+             console.log(response);
+           }).catch(error => {
+             console.log(error);
+           })
+
+
+           /*
+           axios.get('http://localhost:5000/update/setHome', {params})
+           .then(response => {
+             // instead of console.logging, set home coords to data (long, lat) in Firebase
+             console.log(response.data);
+ 
+           }).catch(error => {
+             console.log(error);
+           });*/
       }
     }
-
+    /*
     if(!watchPosition) {
       return(
       <View>
         <Text>Fetching current position...</Text>
       </View>);
-    }
+    }*/
       return (
         <View style = {styles.container}>
           <View style = {styles.titleContainer}>

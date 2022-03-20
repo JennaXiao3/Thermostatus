@@ -14,6 +14,7 @@ export const LoginScreen = ({navigation}, props) => {
         const user = userCredential.user;
         alert("You are logged in!");
         // ...
+        console.log(firebase.auth().currentUser);
       })
       .catch((error) => {
         const errorCode = error.code;
