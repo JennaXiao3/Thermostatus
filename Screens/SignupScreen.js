@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Linking } from 'react-native';
 import { firebase } from '../src/constants/FirebaseConfig';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import axios from 'axios';
 
 const database = firebase.database();
 
@@ -26,10 +27,11 @@ export const SignupScreen = ({navigation}, props) => {
       // ...
       //database.ref().set({whoop: "work"});
       
+      /*
       database.ref('users/userID').child(uid).set({
         fullname: fullName,
         password: password,
-      });
+      });*/
 
       const name = fullName.split(" ");
       // change sign up page to include first name and last name separately
@@ -38,7 +40,8 @@ export const SignupScreen = ({navigation}, props) => {
         lastName: name[1],
         email: email
       };
-      
+
+      /*
       fetch('http://localhost:5000/update/setUsers', {
         method: "POST",
         headers: {
@@ -51,7 +54,13 @@ export const SignupScreen = ({navigation}, props) => {
       }).catch(error => {
         console.log(error);
       });
-      
+      */
+     axios.post('http://localhost:5000/update/setUsers', data)
+      .then(response => {
+        console.log(response);
+      }).catch(error => {
+        console.log(response);
+      })
       
     })
     .catch((error) => {

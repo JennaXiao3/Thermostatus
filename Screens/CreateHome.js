@@ -44,12 +44,14 @@ export function CreateHome({navigation}) {
           }).catch(error => {
             console.log(error);
           });
+
       }
-  }
+    }
 
     useEffect(
       () => {
-        addHouse(houseid, tempUsername, 12, 12, homeName);
+        let username = firebase.auth().currentUser.email;
+        addHouse(houseid, username, 12, 12, homeName);
 
           Geolocation.watchPosition(
               (position) => {
@@ -141,20 +143,22 @@ export function CreateHome({navigation}) {
         // REPLACE WHEN AUTHENTICATION SET UP; use current user email
         console.log('got here');
         // if doesn't exist, add a house
-        // let longitude = 
+        
+        /*
         geocoding(homeAddress)
         .then(() => {
           addHouse(houseid, tempUsername, 12, 12, homeName);
         })
         .catch(error => {
           console.log(error);
-        });
+        });*/
         
         console.log("next step");
         navigation.navigate('home');
+
       }
     }
-
+    
     if(!watchPosition) {
       return(
       <View>

@@ -28,6 +28,7 @@ const Stack = createNativeStackNavigator();
 const database = firebase.database();
 
 export default function App() {
+  /*
   const [watchPosition, setWatchPosition] = useState(null);
   
     useEffect(
@@ -45,7 +46,7 @@ export default function App() {
 
   if (!watchPosition) {
     return(<Text>Getting position...</Text>);
-  }
+  }*/
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='start'>
