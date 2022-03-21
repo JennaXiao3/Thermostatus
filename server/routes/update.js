@@ -41,19 +41,25 @@ router.post('/setHome', async function (req, res) {
         code: [home code]
         email: [the email of the user who created it]
         longitude: [of home]
-        latititude: [of home]
+        latitude: [of home]
         houseName: [homeName] 
       }
     */
 
     // not sure how geolocation works
     // geolocation: new GeoPoint(parseInt(req.body.latitude), parseInt(req.body.longitude)),  
+    //let geopoint = new db.db.GeoPoint(Number(req.body.latitude), Number(req.body.longitude));
+    const latitude = Number(req.body.latitude);
+    const longitude = Number(req.body.longitude);
     
     await db.db.collection("houses").doc(req.body.code).set({
-      longitude: parseInt(req.body.longitude),
-      latitude: parseInt(req.body.latitude),
       houseName: req.body.houseName
     })
+
+    await db.db.collection("houses").doc(req.body.code).collection("location").doc("geopoint").set({
+      longitude: longitude,
+      latitude: latitude,
+    });
 
     await db.db.collection("houses").doc(req.body.code).collection("users").doc(req.body.email).set({
       isAtHome: true, // not sure if these values should be true or false initially
@@ -65,7 +71,8 @@ router.post('/setHome', async function (req, res) {
       isCurrentHome: true,
     })
 
-    res.send(req.body);
+    // res.send(req.body);
+    res.send("done!");
   } catch (err) {
     res.send(err)
   }
