@@ -30,7 +30,7 @@ const database = firebase.database();
 export default function App() {
   /*
   const [watchPosition, setWatchPosition] = useState(null);
-
+  
     useEffect(
       () => {
           Geolocation.watchPosition(

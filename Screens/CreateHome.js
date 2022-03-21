@@ -10,16 +10,20 @@ import Geolocation from 'react-native-geolocation-service';
 
 // firebase
 import { firebase } from '../src/constants/FirebaseConfig';
+import { PanResponder } from 'react-native-web';
 const database = firebase.database();
+let houseid = "";
+const tempUsername = "cocopuff@gmail.com";
+
 
 // creating a new home
 export function CreateHome({navigation}) {
     const [homeName, setHomeName] = useState("");
     const [homeAddress, setHomeAddress] = useState("");
-    const [homeGeocode, setHomeGeocode] = useState(null);
+    const [homeGeocode, setHomeGeocode] = useState({longitude: 0, latitude: 0});
     const [watchPosition, setWatchPosition] = useState(null);
 
-    const geocoding= (address) => {
+     async function geocoding (address) {
       let addressIsString = (typeof(address) == 'string');
 
       if (addressIsString) {
@@ -27,11 +31,28 @@ export function CreateHome({navigation}) {
           access_key: 'f1d5ed3c2d2419317b30ae90e82950eb',
           query: address,
         }
+        axios.get('http://api.positionstack.com/v1/forward', {params})
+          .then(response => {
+            // instead of console.logging, set home coords to data (long, lat) in Firebase
+            console.log(response.data);
+            console.log(response.data.data[0]);
+            setHomeGeocode({
+              longitude: response.data.data[0].longitude,
+              latitude: response.data.data[0].latitude,
+            });
+
+          }).catch(error => {
+            console.log(error);
+          });
+
       }
     }
 
     useEffect(
       () => {
+        let username = firebase.auth().currentUser.email;
+        addHouse(houseid, username, 12, 12, homeName);
+
           Geolocation.watchPosition(
               (position) => {
                   setWatchPosition(() => position.coords);
@@ -40,18 +61,7 @@ export function CreateHome({navigation}) {
               }
           );
         }, 
-    []);
-
-    // actually make this to check home code
-    const getUsers = () => {
-      axios.get('http://localhost:5000/search/getUsers')
-        .then(response => {
-          console.log(response.data);
-
-        }).catch(error => {
-          console.log(error);
-        });
-    }
+    [homeGeocode]);
 
     // fetching all houses
     const getHouseCodes = () => {
@@ -71,9 +81,41 @@ export function CreateHome({navigation}) {
         return houseCodes;
     }
 
+    async function addHouse (code, email, longitude, latitude, name) {
+      console.log(homeAddress);
+      console.log(homeGeocode);
+
+      let longitudeNum = parseFloat(homeGeocode.longitude);
+      let latitudeNum = parseFloat(homeGeocode.latitude);
+
+      const homeObj = {
+        code: code, 
+        email: email, 
+        longitude: longitudeNum,
+        latitude: latitudeNum,
+        houseName: name
+      };
+
+      axios.post('http://localhost:5000/update/setHome', homeObj)
+      .then(response => {
+        console.log(`added house ${code} to firestore!`);
+      })
+      .catch(error => {
+      console.log(error);
+    });
+
+    }
+
     //checking if that code is in the array
     const codeExists = (data, code) => {
-      return data.includes(code);
+      console.log(code);
+      let len = data.length;
+      for (let i = 0; i < len; ++i) {
+        if (data[i] == code) {
+          return true;
+        }
+      }
+      return false;
     }
 
     const useCurrentLocation = () => {
@@ -81,71 +123,48 @@ export function CreateHome({navigation}) {
       console.log(watchPosition);
     }
 
-    const onCreatePress = () => {
+    async function onCreatePress() {
       if (!(homeAddress == "")) {
-        navigation.navigate('home');
-        geocoding(homeAddress);
-    
         let exists = true;
         const houseCodes = getHouseCodes();
-        let houseid = "";
-
         do {
           //create random 4-num iD
           for (let i = 0; i < 4; i++) {
             let val = Math.floor(Math.random() * 10);
-            houseid = houseid + val;
+            houseid = houseid + val.toString();
           }
-          
+          console.log("in while loop");
+          console.log(houseCodes);
           exists = codeExists(houseCodes, houseid);
+          console.log(exists);
 
         } while (exists);
 
+        // REPLACE WHEN AUTHENTICATION SET UP; use current user email
+        console.log('got here');
         // if doesn't exist, add a house
+        
+        /*
+        geocoding(homeAddress)
+        .then(() => {
+          addHouse(houseid, tempUsername, 12, 12, homeName);
+        })
+        .catch(error => {
+          console.log(error);
+        });*/
+        
+        console.log("next step");
+        navigation.navigate('home');
 
-        let data = {
-          code: houseid,
-          email: firebase.auth().currentUser.email,
-          houseName: homeName
-        }
-        /* use http://localhost:5000/update/setHome
-           and for the body, create a json object (in this case, called "data") with the following format
-
-           let data = {
-              code: [home code from above],
-              email: [the email of the user who created it],
-              longitude: [of home],
-              latititude: [of home],
-              houseName: [homeName] 
-           }
-
-        */
-        axios.post('http://localhost:5000/update/setHome', data)
-           .then(response => {
-             console.log(response);
-           }).catch(error => {
-             console.log(error);
-           })
-
-
-           /*
-           axios.get('http://localhost:5000/update/setHome', {params})
-           .then(response => {
-             // instead of console.logging, set home coords to data (long, lat) in Firebase
-             console.log(response.data);
- 
-           }).catch(error => {
-             console.log(error);
-           });*/
       }
     }
-    /*
+    
     if(!watchPosition) {
       return(
       <View>
         <Text>Fetching current position...</Text>
       </View>);
-    }*/
+    }
       return (
         <View style = {styles.container}>
           <View style = {styles.titleContainer}>
@@ -177,7 +196,11 @@ export function CreateHome({navigation}) {
               style = {styles.button}
               >
                 <Text style={styles.buttonText}>Next</Text>
-            </TouchableOpacity>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => console.log(homeGeocode)}>
+            <Text>checking setGeocode</Text>
+          </TouchableOpacity>
         </View>
       );
     }
