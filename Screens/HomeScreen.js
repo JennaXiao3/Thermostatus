@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
+//import AppLoading from 'expo-app-loading';
+
 
 export const HomeScreen = ({navigation}, props) => {
 
@@ -11,7 +13,12 @@ export const HomeScreen = ({navigation}, props) => {
     const [ watchPosition, setWatchPosition ] = useState(null);
     const [ currentTime, setCurrentTime ] = useState('now');
     const [code, setCode] = useState('')
- 
+    
+    
+    /*
+    if (!fontsLoaded) {
+      return <AppLoading />;
+    }*/
     //geolocation upon mounting
     // issue: why does it take so long to load
 
@@ -134,7 +141,7 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       color: '#F0F0F0',
       fontWeight: '600',
-      fontSize: 20
+      fontSize: 20,
     },
     downArrow: {
       width: 20,
@@ -144,7 +151,7 @@ const styles = StyleSheet.create({
       marginRight: '3%'
     },
     tempCircle: {
-      width: '80%',
+      width: '100%',
       height: '62%',
       marginTop: '-55%',
       marginBottom: '5%',
@@ -152,8 +159,8 @@ const styles = StyleSheet.create({
       alignItems: 'center'
     },
     thermoPic: {
-      width: '80%',
-      height: '80%',
+      width: '60%',
+      height: '70%',
     },
     temperature: {
       position: 'absolute',

@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import React, { Component, useState } from 'react';
 import { firebase } from '../src/constants/FirebaseConfig';
 import axios from 'axios';
+import { KeyboardAvoidingView } from 'react-native-web';
 //import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 
 
@@ -27,6 +28,11 @@ export const JoinHome = ({navigation}, props) => {
 
     return (
       <View style = {styles.container}>
+          <KeyboardAvoidingView
+            keyboardVerticalOffset={50}
+            behaviour={'padding'}
+            style={styles.containerAvoiddingView}
+          >
           <View style = {styles.titleContainer}>
             <Text style = {styles.bigTitle}>Join a Home</Text>
             <Text style = {styles.subTitle}>Ask the homeowner for the code to join!</Text>
@@ -38,7 +44,7 @@ export const JoinHome = ({navigation}, props) => {
             onChangeText = {code => setCode(code)}
             value = {code}
           />
-      {/*
+       {/*
         <View style = {styles.containerInput}>
           <View style = {styles.cellView}>
             <Text 
@@ -54,6 +60,7 @@ export const JoinHome = ({navigation}, props) => {
           >
             <Text style={styles.buttonText}>Join</Text>
         </TouchableOpacity>
+        </KeyboardAvoidingView>
       </View>
     );
   
@@ -62,8 +69,12 @@ export const JoinHome = ({navigation}, props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+  },
+  containerAvoiddingView: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10
   },
   titleContainer: {
     flexDirection: 'column',

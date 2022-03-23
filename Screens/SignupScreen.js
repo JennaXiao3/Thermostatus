@@ -10,6 +10,8 @@ export const SignupScreen = ({navigation}, props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
   const onSignUpPress = () => {
@@ -29,15 +31,16 @@ export const SignupScreen = ({navigation}, props) => {
       
       /*
       database.ref('users/userID').child(uid).set({
-        fullname: fullName,
+        firstName: firstName,
+        lastName: lastName,
         password: password,
       });*/
 
       const name = fullName.split(" ");
       // change sign up page to include first name and last name separately
       let data = {
-        firstName: name[0],
-        lastName: name[1],
+        firstName: firstName,
+        lastName: lastName,
         email: email
       };
 
@@ -84,11 +87,17 @@ export const SignupScreen = ({navigation}, props) => {
       <View style = {styles.inputContainer}>
         <TextInput
           style={styles.input}
-          placeholder='Full Name'
-          onChangeText={(text) => setFullName(text)}
-          value={fullName}
+          placeholder='First Name'
+          onChangeText={(text) => setFirstName(text)}
+          value={firstName}
           underlineColorAndroid="transparent"
-          autoCapitalize="none"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder='Last Name'
+          onChangeText={(text) => setLastName(text)}
+          value={lastName}
+          underlineColorAndroid="transparent"
         />
         <TextInput 
           placeholder = "Email"
