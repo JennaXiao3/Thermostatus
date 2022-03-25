@@ -23,7 +23,7 @@ export const Onboarding = ()=> {
       <View style={{flex : 3}}>
         <FlatList 
           data={slides} 
-          style={styles.list} 
+          contentContainerStyle={{flex: 1}}
           renderItem={({ item }) => <OnboardingItem item={item}/>} 
           horizontal
           showsHorizontalScrollIndicator

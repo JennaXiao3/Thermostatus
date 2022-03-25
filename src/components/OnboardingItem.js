@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   imageContainer: {
-    height: 300,
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center'

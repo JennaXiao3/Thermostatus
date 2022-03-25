@@ -58,7 +58,9 @@ export const HomeScreen = ({navigation}, props) => {
             </View>
           </View>
           <View style={styles.bottomContainer}>
-            <TouchableOpacity style={styles.prefButton}>
+            <TouchableOpacity 
+              style={styles.prefButton}
+              onPress={() => navigation.navigate("setpreferences")}>
               <View style={styles.prefView}>
                 <FontAwesome5 name="thermometer-half" size={24} color="#F0F0F0" />
               </View>
