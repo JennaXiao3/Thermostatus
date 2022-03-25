@@ -61,7 +61,7 @@ export default function App() {
         <Stack.Screen name='joinhome' component={JoinHome}/>
         <Stack.Screen name='createhome' component={CreateHome}/>
         <Stack.Screen name='setpreferences' component={SetPreferences}/>
-        <Stack.Screen name='chooseauth' component={ChooseAuth}/>
+        <Stack.Screen name='chooseauth' component={ChooseAuth} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
