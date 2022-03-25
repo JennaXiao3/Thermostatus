@@ -17,6 +17,9 @@ import { AddThermostat } from './Screens/AddThermostat';
 import { JoinHome } from './Screens/JoinHome';
 import { CreateHome } from './Screens/CreateHome';
 import { SetPreferences } from './Screens/SetPreferences';
+import { ChooseAuth } from './Screens/ChooseAuth';
+import { Onboarding } from './Screens/Onboarding';
+
 
 // geolocation
 import Geolocation from 'react-native-geolocation-service';
@@ -50,7 +53,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='start'>
-        <Stack.Screen name='home' component={HomeScreen} />
+        <Stack.Screen name='home' component={HomeScreen} options={{ headerShown: false }}/>
         <Stack.Screen name='start' component={StartScreen} />
         <Stack.Screen name='login' component={LoginScreen} />
         <Stack.Screen name='signup' component={SignupScreen} />
@@ -59,6 +62,8 @@ export default function App() {
         <Stack.Screen name='joinhome' component={JoinHome}/>
         <Stack.Screen name='createhome' component={CreateHome}/>
         <Stack.Screen name='setpreferences' component={SetPreferences}/>
+        <Stack.Screen name='chooseauth' component={ChooseAuth} options={{ headerShown: false }}/>
+        <Stack.Screen name='onboarding' component={Onboarding} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

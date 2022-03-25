@@ -148,3 +148,27 @@ router.post('/joinHome', async function (req, res) {
 })
 
   module.exports = router;
+
+router.post('/updateStatus', async function (req, res) {
+  /*
+    req body looks like this
+      {
+        code: [home code]
+        email: [the email of the user]
+        isAtHome: 
+      }
+  */
+  try {
+    await db.db.collection("houses").doc(req.body.code).collection("users").doc(req.body.email).update({
+      isAtHome: req.body.isAtHome
+    })
+    await db.db.collection("users").doc(req.body.email).collection("houses").doc(req.body.code).update({
+      isAtHome: req.body.isAtHome
+    })
+    
+    res.send(req.body)
+  } catch (err) {
+    res.send(err)
+  }
+})
+

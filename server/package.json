@@ -8,8 +8,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.2.2",
+    "@expo-google-fonts/open-sans": "^0.2.2",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",
+    "expo-font": "^10.0.5",
     "express": "^4.17.3",
     "firebase": "^9.6.7",
     "firebase-admin": "^10.0.2",
