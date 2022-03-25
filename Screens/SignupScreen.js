@@ -151,11 +151,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    backgroundColor: 'white',
     paddingHorizontal: 15,
     paddingVertical: 10,
     marginTop: 5,
-    width: 300
+    width: 300,
+    borderBottomColor: '#A8A6A7',
+    borderBottomWidth: 1,
   },
   buttonContainer: {
     width: '80%',
@@ -179,8 +180,8 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   button: {
-    backgroundColor: '#0782F9',
-    width: '100%', /* to change width of button, got to buttonContainer */
+    backgroundColor: '#F1B104',
+    width: '100%', /* to change width of button, go to buttonContainer */
     padding: 15,
     borderRadius: 20,
     alignItems: 'center',
