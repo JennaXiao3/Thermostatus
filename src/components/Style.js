@@ -34,4 +34,16 @@ export default StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
   },
+  titleContainer: {
+    flexDirection: 'column',
+    paddingBottom: 25
+  },
+  bigTitle: {
+    fontSize: 36,
+  },
+  subTitle: {
+    fontSize: 16,
+    paddingTop: 10,
+    paddingBottom: 50
+  },
 });

@@ -67,6 +67,9 @@ export const StartScreen = ({navigation}) => {
             <TouchableOpacity onPress={() => navigation.navigate('onboarding')}>
                 <Text>Go to Onboarding Page</Text>
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('choosepref')}>
+                <Text>Go to Onboarding Pref Page</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity onPress={() => {
                 console.log(watchPosition);

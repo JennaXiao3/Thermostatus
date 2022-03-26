@@ -19,6 +19,7 @@ import { CreateHome } from './Screens/CreateHome';
 import { SetPreferences } from './Screens/SetPreferences';
 import { ChooseAuth } from './Screens/ChooseAuth';
 import { Onboarding } from './Screens/Onboarding';
+import { ChoosePref } from './Screens/ChoosePref';
 
 
 // geolocation
@@ -64,6 +65,7 @@ export default function App() {
         <Stack.Screen name='setpreferences' component={SetPreferences}/>
         <Stack.Screen name='chooseauth' component={ChooseAuth} options={{ headerShown: false }}/>
         <Stack.Screen name='onboarding' component={Onboarding} options={{ headerShown: false }}/>
+        <Stack.Screen name='choosepref' component={ChoosePref} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
