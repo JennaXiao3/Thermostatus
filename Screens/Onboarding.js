@@ -37,7 +37,7 @@ export const Onboarding = ()=> {
           renderItem={({ item }) => <OnboardingItem item={item}/>} 
           horizontal={true}
           showsHorizontalScrollIndicator
-          pagingEnabled
+          pagingEnabled={true}
           bounces={false}
           keyExtractor={(item) => item.id}
           onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX }}}], {
@@ -45,8 +45,8 @@ export const Onboarding = ()=> {
           })}
           scrollEventThrottle={32}
           onViewableItemsChanged={viewableItemsChanged}
-          //viewabilityConfig={viewConfig}
-          // ref={slidesRef}
+          viewabilityConfig={viewConfig}
+          ref={slidesRef}
         />
       </View>
     </View>
