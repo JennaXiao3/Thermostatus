@@ -35,7 +35,7 @@ export const Onboarding = ()=> {
           data={slides} 
           contentContainerStyle={{flex: 2}}
           renderItem={({ item }) => <OnboardingItem item={item}/>} 
-          horizontal
+          horizontal={true}
           showsHorizontalScrollIndicator
           pagingEnabled
           bounces={false}

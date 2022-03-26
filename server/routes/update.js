@@ -75,6 +75,7 @@ router.post('/setHome', async function (req, res) {
         longitude: [of home]
         latitude: [of home]
         houseName: [homeName],
+        address: [address of home]
         isCurrentHome: true/false (default true),
         isAtHome: true/false (depending on location of user + of house), 
       }
@@ -87,7 +88,8 @@ router.post('/setHome', async function (req, res) {
     const longitude = Number(req.body.longitude);
     
     await db.db.collection("houses").doc(req.body.code).set({
-      houseName: req.body.houseName
+      houseName: req.body.houseName,
+      address: req.body.address
     })
 
     await db.db.collection("houses").doc(req.body.code).collection("location").doc("geopoint").set({
