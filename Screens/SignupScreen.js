@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpaci
 import { firebase } from '../src/constants/FirebaseConfig';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import axios from 'axios';
+import extstyles from '../src/components/Style';
 
 const database = firebase.database();
 
@@ -127,12 +128,12 @@ export const SignupScreen = ({navigation}, props) => {
         />
       </View>
 
-      <View style = {styles.buttonContainer}>
+      <View style = {extstyles.buttonContainer}>
         <TouchableOpacity
           onPress = {onSignUpPress}
-          style = {styles.button}
+          style = {extstyles.button}
         >
-          <Text style ={styles.buttonText}>Sign Up</Text>
+          <Text style ={extstyles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
       <View style = {styles.logInText}>
@@ -178,18 +179,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 50,
     textAlign: 'center'
-  },
-  button: {
-    backgroundColor: '#F1B104',
-    width: '100%', /* to change width of button, go to buttonContainer */
-    padding: 15,
-    borderRadius: 20,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 15,
   },
   logInText: {
     flexDirection: 'row',

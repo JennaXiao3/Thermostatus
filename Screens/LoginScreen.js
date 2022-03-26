@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Linking } from 'react-native';
 import { firebase } from '../src/constants/FirebaseConfig';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import extstyles from '../src/components/Style';
 
 export const LoginScreen = ({navigation}, props) => {
   const [email, setEmail] = useState('')
@@ -51,12 +52,12 @@ export const LoginScreen = ({navigation}, props) => {
         />
       </View>
 
-      <View style = {styles.buttonContainer}>
+      <View style = {extstyles.buttonContainer}>
         <TouchableOpacity
           onPress = {onLogInPress}
-          style = {styles.button}
+          style = {extstyles.button}
         >
-          <Text style = {styles.buttonText}>Login</Text>
+          <Text style = {extstyles.buttonText}>Login</Text>
         </TouchableOpacity>
       </View>
       <View style = {styles.signUpText}>
@@ -99,29 +100,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingTop: 10,
     paddingBottom: 50
-  },
-  button: {
-    backgroundColor: '#F1B104',
-    width: '100%', /* to change width of button, got to buttonContainer */
-    padding: 15,
-    borderRadius: 20,
-    alignItems: 'center',
-  },
-  buttonOutline: {
-    backgroundColor: 'white',
-    marginTop: 5,
-    borderColor: '#0782F9',
-    borderWidth: 2,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 15,
-  },
-  buttonOutlineText: {
-    color: '#0782F9',
-    fontWeight: '700',
-    fontSize: 16,
   },
   signUpText: {
     flexDirection: 'row',
