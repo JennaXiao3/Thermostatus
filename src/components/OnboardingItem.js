@@ -28,12 +28,6 @@ export const OnboardingItem = ({ item }) => {
         <View style={styles.info}>
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.description}>{item.description}</Text>
-
-          <TouchableOpacity
-          onPress={onPressNext}
-          style={styles.buttonNext}>
-            <Text style={styles.buttonText}>Get Started</Text>
-          </TouchableOpacity>
         </View>
         
       </View>

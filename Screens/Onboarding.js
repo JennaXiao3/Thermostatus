@@ -3,8 +3,9 @@ import { StyleSheet, Text, View, FlatList, Animated, KeyboardAvoidingView, TextI
 import Style from '../src/components/Style';
 import slides from '../src/constants/slides';
 import { OnboardingItem } from '../src/components/OnboardingItem';
+import { AntDesign } from '@expo/vector-icons';
 
-export const Onboarding = ()=> {
+export const Onboarding = ({navigation})=> {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -49,6 +50,11 @@ export const Onboarding = ()=> {
           ref={slidesRef}
         />
       </View>
+      <TouchableOpacity
+          onPress={() => navigation.navigate('chooseauth')}
+          style={styles.buttonNext}>
+          <AntDesign name="arrowright" style={styles.arrow} size={36} color="white" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -64,5 +70,17 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
   },
-
+  buttonNext: {
+    width: 100,
+    height: 50,
+    backgroundColor: '#F1B104',
+    flex: 1,
+    marginLeft: '400%',
+    borderRadius: 50,
+    justifyCenter: 'center',
+    alignItems: 'center'
+  },
+  arrow: {
+    marginTop: 30
+  }
 })
