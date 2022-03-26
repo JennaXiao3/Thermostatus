@@ -17,7 +17,7 @@ export const SignupScreen = ({navigation}, props) => {
 
   const onSignUpPress = () => {
     if (password !== confirmPassword) {
-      alert("Passwords don't match.")
+      //alert("Passwords don't match.")
       return
     } 
     // password needs to be atleast 6 characters
@@ -26,7 +26,7 @@ export const SignupScreen = ({navigation}, props) => {
       const uid = userCredential.user.uid;
       // Signed in 
       var user = userCredential.user;
-      alert("You have been registered!");
+      //alert("You have been registered!");
       // ...
       //database.ref().set({whoop: "work"});
       
@@ -71,9 +71,11 @@ export const SignupScreen = ({navigation}, props) => {
       var errorCode = error.code;
       var errorMessage = error.message;
       console.log(errorMessage);
-      alert('Not working :(');
+      //alert('Not working :(');
       // ..
     });
+
+    navigation.navigate('choosepref');
   }
 
   return (

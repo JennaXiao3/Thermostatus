@@ -13,16 +13,17 @@ export const LoginScreen = ({navigation}, props) => {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        alert("You are logged in!");
+        //alert("You are logged in!");
         // ...
         console.log(firebase.auth().currentUser);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert("You haven't registered yet :(");
+        //alert("You haven't registered yet :(");
         console.log(errorMessage);
       });
+      navigation.navigate('home');
     }
 
   return (
