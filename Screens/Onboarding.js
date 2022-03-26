@@ -13,9 +13,6 @@ export const Onboarding = ({navigation})=> {
 
   const slidesRef = useRef(null);
 
-  const viewableItemsChanged = useRef(({ viewableItems }) => {
-    setCurrentIndex(viewableItems[0].index);
-  }).current;
 
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50}).current;
 
@@ -45,9 +42,7 @@ export const Onboarding = ({navigation})=> {
             useNativeDriver: false,
           })}
           scrollEventThrottle={32}
-          onViewableItemsChanged={viewableItemsChanged}
-          viewabilityConfig={viewConfig}
-          ref={slidesRef}
+   
         />
       </View>
       <TouchableOpacity
