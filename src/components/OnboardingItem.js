@@ -3,11 +3,6 @@ import React from 'react';
 import {useState} from 'react';
 
 
-
-
-
-
-
 export const OnboardingItem = ({ item }) => {
   const {width}  = useWindowDimensions();
   const [id, setId] = useState(item.id);
