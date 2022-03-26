@@ -21,6 +21,10 @@ import { userAtHome } from '../helpers/location';
 
 const intervalOfChange = 4000; // 600000
 
+const profilePic = require("../src/assets/userIcon.png");
+const thermoPic = require("../src/assets/thermo.png");
+const downArrow = require("../src/assets/downArrow.png");
+
 export const HomeScreen = ({navigation}, props) => {
 
     const [positionNow, setPositionNow] = useState(null);
@@ -87,10 +91,6 @@ export const HomeScreen = ({navigation}, props) => {
     const dropdownPress = () => {
 
     }
-
-    const profilePic = require("../src/assets/userIcon.png");
-    const thermoPic = require("../src/assets/thermo.png");
-    const downArrow = require("../src/assets/downArrow.png");
 
     
             setHouseCoords({latitude: coordsData.latitude, longitude: coordsData.longitude});
@@ -178,7 +178,7 @@ export const HomeScreen = ({navigation}, props) => {
 
 
 
-const HomeScreenAtHome = (props) => {
+const HomeScreenAtHome = ({navigation}, props) => {
     return(
 
         <View style={styles.screenContainer}>

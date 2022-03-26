@@ -21,7 +21,6 @@ import { ChooseAuth } from './Screens/ChooseAuth';
 import { Onboarding } from './Screens/Onboarding';
 import { ChoosePref } from './Screens/ChoosePref';
 
-
 // geolocation
 import Geolocation from 'react-native-geolocation-service';
 
