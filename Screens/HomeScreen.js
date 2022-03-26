@@ -183,15 +183,12 @@ export const HomeScreen = ({navigation, route}, props) => {
                 <View style={styles.profileContainer}>
                   <Image source={profilePic} style={styles.profilePic}></Image>
                 </View>
-                <View style={styles.homeNameContainer}>
-                  <TouchableOpacity 
-                    style={styles.downArrowButton}
-                    onPress={dropdownPress}
-                  >
-                    <Image source={downArrow} style={styles.downArrow}></Image>
-                  </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.manageHomesButton}
+                  onPress={() => navigation.navigate('managehomes', {houseCode: houseCode})}
+                >
                   <Text style={styles.homeName}>Manage Homes</Text>
-                </View>
+                </TouchableOpacity>
               </View>
               <View style={styles.tempCircle}>
                 <Image source={thermoPic} style={styles.thermoPic}></Image>
@@ -223,15 +220,12 @@ export const HomeScreen = ({navigation, route}, props) => {
                 <View style={styles.profileContainer}>
                   <Image source={profilePic} style={styles.profilePic}></Image>
                 </View>
-                <View style={styles.homeNameContainer}>
-                  <TouchableOpacity 
-                    style={styles.downArrowButton}
-                    onPress={dropdownPress}
-                  >
-                    <Image source={downArrow} style={styles.downArrow}></Image>
-                  </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.manageHomesButton}
+                  onPress={() => navigation.navigate('managehomes', {houseCode: houseCode})}
+                >
                   <Text style={styles.homeName}>Manage Homes</Text>
-                </View>
+                </TouchableOpacity>
               </View>
               <View style={styles.tempCircle}>
                 <Image source={thermoPic} style={styles.thermoPic}></Image>

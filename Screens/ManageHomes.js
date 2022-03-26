@@ -20,16 +20,19 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { firebase } from '../src/constants/FirebaseConfig';
 import axios from 'axios';
+const defaultTemp = 22;
+
 
 const { width, height } = Dimensions.get('screen')
 const BG_IMG = require('../src/assets/homeBackground.png');
 const SPACING = 20;
 const HOME_ICON = 60;
 
-export const ManageHomes = ({navigation}, props) => {
+export const ManageHomes = ({navigation, route}, props) => {
     const [loading, setLoading] = useState(true); // Set loading to true on component mount
     const [homes, setHomes] = useState([]); // Initial empty array of homes
     const [info, setInfo] = useState([]);
+    const [newHouseCode, setNewHouseCode] = useState(route.params.houseCode);
     const [justOnce, setJustOnce] = useState(true);
     
     let userEmail = firebase.auth().currentUser.email;
@@ -43,16 +46,43 @@ export const ManageHomes = ({navigation}, props) => {
         setInfo(res.data);
       })
       .catch((err) => console.log(err));
+
+   
+    
+    /*
+    useEffect(() => {
+      axios.get('http://localhost:5000/search/getHouseFields', userEmail)
+        .then(response => {
+          let data = response.data;
+            console.log(response.data);
+            //updatingInfo();
+            
+            data.forEach((item) => {
+              info.push(item);
+            });
+  
+        }).catch(error => {
+          console.log(error);
+        });
+      
+        console.log(info);
+    });*/
+    
+    /*
     
     });
-    
-    
+    oading) {
+      return <ActivityIndicator />;
+    }
+    */
+
+   
 
     return(
         <View style={styles.screenContainer}>
           <View style={styles.homeHeading}>
             <TouchableOpacity 
-              onPress={() => navigation.navigate('home')}
+              onPress={() => navigation.navigate('home', {houseCode: newHouseCode, startTemp: defaultTemp})}
               style={styles.arrowLeft}
             >
               <AntDesign name="arrowleft" size={24} color="white"/>
