@@ -24,8 +24,6 @@ export const OnboardingItem = ({ item }) => {
       <View style={[styles.container, { width: width }]}>
         <View style={styles.imageContainer}>
           <Image source={img} style={styles.image}/>
-          <Text>{width}</Text>
-          <Text>{id}</Text>
         </View>
         <View style={styles.info}>
           <Text style={styles.title}>{item.title}</Text>
@@ -46,7 +44,6 @@ export const OnboardingItem = ({ item }) => {
     <View style={[styles.container, { width: width }]}>
       <View style={styles.imageContainer}>
         <Image source={img} style={styles.image}/>
-        <Text>{width}</Text>
       </View>
       <View style={styles.info}>
         <Text style={styles.title}>{item.title}</Text>
