@@ -7,6 +7,7 @@ import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
 import { firebase } from '../src/constants/FirebaseConfig';
 
+const defaultTemp = 22;
 
 export const StartScreen = ({navigation}) => {
 
@@ -44,7 +45,7 @@ export const StartScreen = ({navigation}) => {
     return(
         <View style={styles.screenContainer}>
             <Text>Starting Screen</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('home')}>
+            <TouchableOpacity onPress={() => navigation.navigate('home', {startTemp: defaultTemp})}>
                 <Text>Go to Home Page.</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('login')}>

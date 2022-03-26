@@ -15,6 +15,7 @@ import { PanResponder } from 'react-native-web';
 const database = firebase.database();
 let houseid = "";
 const tempUsername = "cocopuff@gmail.com";
+const defaultTemp = 22;
 
 //location helper
 import { userAtHome } from '../helpers/location';
@@ -65,21 +66,9 @@ export function CreateHome({navigation}) {
               }
           );
 
-        /* axios.get('http://localhost:5000/search/getHouseCodes')
-        .then(response => {
-          let data = response.data;
-          data.forEach
-        }).catch();  */
-
         });
 
-
-    // getting user location in database
     useMemo(() => addHouse(houseid, email, homeName), [homeGeocode]);
-    /*useEffect(() => {
-      addHouse(houseid, email, homeName);
-
-    }, [homeGeocode]);*/
 
 
     // fetching all houses
@@ -184,7 +173,7 @@ export function CreateHome({navigation}) {
       console.log(error);
       });
       
-      navigation.navigate('home');
+      navigation.navigate('home', {houseCode: houseid, startTemp: defaultTemp});
 
     }
 
@@ -194,7 +183,7 @@ export function CreateHome({navigation}) {
         geocoding(homeAddress);
         
         console.log("next step");
-        navigation.navigate('home', watchPosition);
+        navigation.navigate('home', {houseCode: houseid, startTemp: defaultTemp});
 
       }
     }
@@ -295,33 +284,3 @@ const styles = StyleSheet.create({
     fontSize: 16
   }
 }) 
-
-//AIzaSyCwUWmUHb42cz1Sn8YAWx25sKynAxCNdSY
-//AIzaSyCL19fVJbd8NIPC53P_WNrL5CcfhEOff9k
-
-/*<GoogleAutoComplete apiKey='AIzaSyCL19fVJbd8NIPC53P_WNrL5CcfhEOff9k' debounce={300} minLength={2}>
-            {({ handleTextChange, locationResults, fetchDetails, isSearching, inputValue, clearSearchs}) => (
-              <React.Fragment>
-                {console.log('locationResults', locationResults)}
-                <View style = {styles.inputWrapper}>
-                  <TextInput 
-                    style = {styles.textInput}
-                    placeholder = "Search an address"
-                    onChangeText = {handleTextChange}
-                    value = {inputValue}
-                  />
-                </View>
-                {isSearching && <ActivityIndicator size = "large" color="gray"/>} 
-                <ScrollView>
-                {locationResults.map(el => (
-                  <LocationItem
-                    {...el}
-                    key={el.id}
-                    fetchDetails={fetchDetails}
-                  />
-                ))}
-                </ScrollView>
-    
-              </React.Fragment>
-            )}
-          </GoogleAutoComplete>*/

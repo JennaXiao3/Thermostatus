@@ -160,8 +160,6 @@ router.get('/getHouseUsers/:houseId', async function (req, res) {
   }
 })
 
-  module.exports = router;
-
 
   // get user current house
   // returns: house code
@@ -231,4 +229,25 @@ router.get('/getHouseUsers/:houseId', async function (req, res) {
       res.send(err);
     }
   });
+
+
+  router.get('/getAtHomeUsers/:houseId', async function (req, res) {
+    try {
+      let result = [];
+      const houseId = req.params.houseId;
+      const houseSnapshot = await db.db.collection("houses").doc(houseId).collection("users").get();
+      houseSnapshot.forEach((item) => {
+        const isAtHome = item.data().isAtHome;
+        if (isAtHome) {
+          result.push(item.id);
+        }
+      });
+  
+      res.send(result);
+    } catch (err) {
+      res.send(err);
+    }
+  })
+
+  module.exports = router;
 

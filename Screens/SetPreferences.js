@@ -2,12 +2,13 @@ import { Text, View, StyleSheet, TextInput, TouchableOpacity, Image } from 'reac
 import React, { Component, useState } from 'react';
 import { firebase } from '../src/constants/FirebaseConfig';
 import axios from 'axios';
+import { manageTemp } from '../helpers/temp';
 
 // images
 const arrow = require("../src/assets/next_arrow_orange.png");
 
 
-export const SetPreferences = ({navigation}, props) => {
+export const SetPreferences = ({navigation, route}, props) => {
   const [temp, setTemp] = useState(22);
 
   const onPlusPress = () => {
@@ -20,7 +21,7 @@ export const SetPreferences = ({navigation}, props) => {
     setTemp((prev) => prev - 1);
   }
   
-  const onNextPress = () => {
+  const onNextPress = async () => {
     console.log(temp);
 
     // must be able to get the user's email somehow --> rn a random one
@@ -29,27 +30,14 @@ export const SetPreferences = ({navigation}, props) => {
       temperature: temp
     }
 
-    axios.post('http://localhost:5000/update/setTemp', data)
+    const firstResp = await axios.post('http://localhost:5000/update/setTemp', data)
       .then(response => {
-        console.log(response);
-      }).catch(error => {
-        console.log(error);
-      })
-    /*
-    fetch('http://localhost:5000/update/setTemp', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: data,
-
-      }).then(response => {
         console.log(response.data);
       }).catch(error => {
         console.log(error);
-      });*/
-
-    navigation.navigate('home')
+      });
+      console.log('here!');
+     navigation.navigate('home', {startTemp: temp});
   }
 
   return (
@@ -57,7 +45,6 @@ export const SetPreferences = ({navigation}, props) => {
       <View style = {styles.titleContainer}>
         <Text style = {styles.bigTitle}>Set Preferred<br></br>Temperature</Text>
       </View>
-
       
       <View style={styles.middleContainer}>
         <View style={[styles.middleSubContainer, {flex: 3}]}>

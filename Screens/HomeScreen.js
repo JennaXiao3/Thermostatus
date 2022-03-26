@@ -7,6 +7,12 @@ import { FontAwesome5 } from '@expo/vector-icons';
 //import AppLoading from 'expo-app-loading';
 
 
+const profilePic = require("../src/assets/userIcon.png");
+const thermoPic = require("../src/assets/thermo.png");
+const downArrow = require("../src/assets/downArrow.png");
+
+
+
 //geolocation
 import axios from 'axios';
 import Geolocation from 'react-native-geolocation-service';
@@ -17,15 +23,14 @@ const database = firebase.database();
 
 //location checking
 import { userAtHome } from '../helpers/location';
+import { manageTemp } from '../helpers/temp';
 
 
-const intervalOfChange = 4000; // 600000
+const intervalOfChange = 8000; //that is for demo purposes: for real, 600000
 
-const profilePic = require("../src/assets/userIcon.png");
-const thermoPic = require("../src/assets/thermo.png");
-const downArrow = require("../src/assets/downArrow.png");
 
-export const HomeScreen = ({navigation}, props) => {
+export const HomeScreen = ({navigation, route}, props) => {
+
 
     const [positionNow, setPositionNow] = useState(null);
     const [ watchPosition, setWatchPosition ] = useState({latitude: 0, longitude: 0});
@@ -34,8 +39,10 @@ export const HomeScreen = ({navigation}, props) => {
     const [atHome, setAtHome] = useState(true);
     const [email, setEmail] = useState("idkman@gmail.com");
     const [houseCoords, setHouseCoords] = useState({latitude: 0, longitude: 0});
-    const [houseCode, setHouseCode] = useState('hi');
-    // let flag = true;
+    const [houseCode, setHouseCode] = useState(route.params.houseCode);
+    const [currTemp, setCurrTemp] = useState(route.params.startTemp);
+    const [changingTempFlag, setChangingTempFlag] = useState(true);
+    let first = true;
  
 
     useEffect(
@@ -55,8 +62,18 @@ export const HomeScreen = ({navigation}, props) => {
             { enableHighAccuracy: true}
 
         );
+        if (first) {
+          manageTemp(houseCode)
+         .then((success) => {
+             console.log(success);
+             setCurrTemp(success);
+         }).catch((error) => console.log(error));
+         first = false;
+        }
+        
 
         checkingGeo();
+        changingTemp();
         }, 
     []);
 
@@ -70,52 +87,52 @@ export const HomeScreen = ({navigation}, props) => {
             const houseCode = firstResponse.data;
             console.log(houseCode);
             setHouseCode(houseCode);
+            
              
             const secondResponse = await axios.get(`http://localhost:5000/search/getHouseCoords/${houseCode}`);
             console.log(secondResponse.data);
             const coordsData = secondResponse.data;
-    
-    
-    /*
-    if (!fontsLoaded) {
-      return <AppLoading />;
-    }*/
-    //geolocation upon mounting
-    // issue: why does it take so long to load
-
-    const handlePress = () => {
-        console.log(currentTime);
-        //console.log(watchPosition);
-    }
-
-    const dropdownPress = () => {
-
-    }
-
-    
             setHouseCoords({latitude: coordsData.latitude, longitude: coordsData.longitude});
 
         }
 
     }, [email]);
 
+    const dropdownPress = () => {
+
+    }
+
+    const changingTemp = () => {
+      setInterval(() => {
+        setChangingTempFlag((prev) => !prev);
+    }, [intervalOfChange / 2]);
+    }
 
     useEffect(() => {
-        console.log('hi, line 58');
-        compareToHouse();
+      manageTemp(houseCode)
+         .then((success) => {
+             console.log(success);
+             setCurrTemp(success);
+         }).catch((error) => console.log(error));
+
+    }, [changingTempFlag]);
+
+    useEffect(() => {
+        // console.log('hi, line 58');
+        performUpdates();
     }, [watchPosition]);
 
-    const compareToHouse = () => {
+    const performUpdates = async () => {
         let isAtHome = userAtHome(watchPosition.longitude, watchPosition.latitude, houseCoords.longitude, houseCoords.latitude);
         setAtHome(isAtHome);
-        
+
         let data = {
             code: houseCode,
             email: email,
             isAtHome: isAtHome,
         }
         // update so user is atHome
-        axios.post(`http://localhost:5000/update/updateStatus`, data);
+        const awaiting = await axios.post(`http://localhost:5000/update/updateStatus`, data);
     }
 
 
@@ -160,11 +177,82 @@ export const HomeScreen = ({navigation}, props) => {
 
     if (atHome && watchPosition) {
         return(
-            <HomeScreenAtHome change={change} onpress={handlePressUser}></HomeScreenAtHome>
+            <View style={[styles.screenContainer, {backgroundColor: "#AED8A0"}]}>
+            <View style={styles.topContainer}>
+              <View style={styles.bigCircle}>        
+                <View style={styles.profileContainer}>
+                  <Image source={profilePic} style={styles.profilePic}></Image>
+                </View>
+                <View style={styles.homeNameContainer}>
+                  <TouchableOpacity 
+                    style={styles.downArrowButton}
+                    onPress={dropdownPress}
+                  >
+                    <Image source={downArrow} style={styles.downArrow}></Image>
+                  </TouchableOpacity>
+                  <Text style={styles.homeName}>Manage Homes</Text>
+                </View>
+              </View>
+              <View style={styles.tempCircle}>
+                <Image source={thermoPic} style={styles.thermoPic}></Image>
+                <Text style={styles.temperature}>{currTemp}</Text>
+              </View>
+            </View>
+            <View style={styles.bottomContainer}>
+              <TouchableOpacity 
+                style={styles.prefButton}
+                onPress={() => navigation.navigate("setpreferences", {houseCode: houseCode})}>
+                <View style={styles.prefView}>
+                  <FontAwesome5 name="thermometer-half" size={24} color="#F0F0F0" />
+                </View>
+              </TouchableOpacity>
+            
+            {/*for testing purposes */}
+              <TouchableOpacity onPress={handlePressUser}>
+                <Text>printing user infooo</Text>
+              </TouchableOpacity>
+              
+            </View>
+        </View>
         );
     } else if (watchPosition) {
         return(
-            <HomeScreenAwayHome onpress = {handlePressUser}></HomeScreenAwayHome>
+            <View style={styles.screenContainer}>
+            <View style={styles.topContainer}>
+              <View style={styles.bigCircle}>        
+                <View style={styles.profileContainer}>
+                  <Image source={profilePic} style={styles.profilePic}></Image>
+                </View>
+                <View style={styles.homeNameContainer}>
+                  <TouchableOpacity 
+                    style={styles.downArrowButton}
+                    onPress={dropdownPress}
+                  >
+                    <Image source={downArrow} style={styles.downArrow}></Image>
+                  </TouchableOpacity>
+                  <Text style={styles.homeName}>Manage Homes</Text>
+                </View>
+              </View>
+              <View style={styles.tempCircle}>
+                <Image source={thermoPic} style={styles.thermoPic}></Image>
+                <Text style={styles.temperature}>{currTemp}</Text>
+              </View>
+            </View>
+            <View style={styles.bottomContainer}>
+              <TouchableOpacity 
+                style={styles.prefButton}
+                onPress={() => navigation.navigate("setpreferences", {houseCode: houseCode})}>
+                <View style={styles.prefView}>
+                  <FontAwesome5 name="thermometer-half" size={24} color="#F0F0F0" />
+                </View>
+              </TouchableOpacity>
+
+              {/*for testing purposes */}
+              <TouchableOpacity onPress={handlePressUser}>
+                <Text>printing user infooo</Text>
+            </TouchableOpacity>
+            </View>
+        </View>
         );
     } else {
         return(
@@ -175,81 +263,6 @@ export const HomeScreen = ({navigation}, props) => {
     }
 
 }
-
-
-
-const HomeScreenAtHome = ({navigation}, props) => {
-    return(
-
-        <View style={styles.screenContainer}>
-          <View style={styles.topContainer}>
-            <View style={styles.bigCircle}>        
-              <View style={styles.profileContainer}>
-                <Image source={profilePic} style={styles.profilePic}></Image>
-              </View>
-              <TouchableOpacity 
-                style={styles.manageHomesButton}
-                onPress={() => navigation.navigate('managehomes')}
-              >
-                <Text style={styles.homeName}>Manage Homes</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.tempCircle}>
-              <Image source={thermoPic} style={styles.thermoPic}></Image>
-              <Text style={styles.temperature}>28</Text>
-            </View>
-          </View>
-          <View style={styles.bottomContainer}>
-            <TouchableOpacity 
-              style={styles.prefButton}
-              onPress={() => navigation.navigate("setpreferences")}>
-              <View style={styles.prefView}>
-                <FontAwesome5 name="thermometer-half" size={24} color="#F0F0F0" />
-              </View>
-            </TouchableOpacity>
-          </View>
-           {/*
-            <Text>CONGRATS THIS APP FINALLY WORKS</Text>
-            <Image source={{uri: "https://thumbs.dreamstime.com/b/puppies-celebrating-birthday-singing-14013137.jpg"}}
-            style={{width: 200, height: 200}}></Image>
-            <TouchableOpacity onPress={() => navigation.navigate('managehomes')}>
-                <Text>Go to Manage Homes</Text>
-                <Text>{props.change}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={props.onpress}>
-                <Text>printing user infooo</Text>
-            </TouchableOpacity>
-
-            <Button onPress={handlePress}/>
-            <Text>{watchPosition.latitude}</Text>
-            <Text>{currentTime}</Text>
-
-            
-           <StatusBar style="auto" />*/}
-      </View>
-    );
-
-}
-
-const HomeScreenAwayHome = (props) => {
-    return(
-        <View style={styles.screenContainer}>
-            <Text>Not at home screen</Text>
-            <Image source={{uri: "https://thumbs.dreamstime.com/b/puppies-celebrating-birthday-singing-14013137.jpg"}}
-            style={{width: 200, height: 200}}></Image>
-            <TouchableOpacity onPress={() => navigation.navigate('managehomes')}>
-                <Text>Go to Manage Homes</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={props.onpress}>
-                <Text>printing user infooo</Text>
-            </TouchableOpacity>
-            
-            <StatusBar style="auto" />
-      </View>
-    );
-    
-}
-
 
 
 
@@ -372,3 +385,23 @@ const styles = StyleSheet.create({
             }
             , { enableHighAccuracy: true, interval: 5000, fastestInterval: 5000}
         );*/
+
+
+        /*
+              <Text>CONGRATS THIS APP FINALLY WORKS</Text>
+              <Image source={{uri: "https://thumbs.dreamstime.com/b/puppies-celebrating-birthday-singing-14013137.jpg"}}
+              style={{width: 200, height: 200}}></Image>
+              <TouchableOpacity onPress={() => navigation.navigate('managehomes')}>
+                  <Text>Go to Manage Homes</Text>
+                  <Text>{props.change}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={props.onpress}>
+                  <Text>printing user infooo</Text>
+              </TouchableOpacity>
+  
+              <Button onPress={handlePress}/>
+              <Text>{watchPosition.latitude}</Text>
+              <Text>{currentTime}</Text>
+  
+              
+             <StatusBar style="auto" />*/

@@ -16,6 +16,6 @@ export default [
     title: 'third slide',
     description: 'even more info!',
     image: '../assets/slide3.png'
-  }
+  },
   
 ];
