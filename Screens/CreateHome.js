@@ -1,6 +1,6 @@
 import { CurrentRenderContext } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Text, StyleSheet, View, TextInput, ScrollView, Button, ActivityIndicator, TouchableOpacity } from 'react-native';
 //import Geolocation from 'react-native-geolocation-service';
 import * as Location from 'expo-location';
@@ -11,17 +11,22 @@ import Geolocation from 'react-native-geolocation-service';
 // firebase
 import { firebase } from '../src/constants/FirebaseConfig';
 import { PanResponder } from 'react-native-web';
+// import { useMemo } from 'react/cjs/react.production.min';
 const database = firebase.database();
 let houseid = "";
 const tempUsername = "cocopuff@gmail.com";
 
+//location helper
+import { userAtHome } from '../helpers/location';
 
 // creating a new home
 export function CreateHome({navigation}) {
     const [homeName, setHomeName] = useState("");
     const [homeAddress, setHomeAddress] = useState("");
     const [homeGeocode, setHomeGeocode] = useState({longitude: 0, latitude: 0});
-    const [watchPosition, setWatchPosition] = useState(null);
+    const [watchPosition, setWatchPosition] = useState({longitude: 0, latitude: 0});
+    const [email, setEmail] = useState(tempUsername);
+    const [userLocationDatabase, setUserLocationDatabase] = useState({longitude: 0, latitude: 0});
 
      async function geocoding (address) {
       let addressIsString = (typeof(address) == 'string');
@@ -50,9 +55,8 @@ export function CreateHome({navigation}) {
 
     useEffect(
       () => {
-        let username = firebase.auth().currentUser.email;
-        addHouse(houseid, username, 12, 12, homeName);
-
+        setEmail(firebase.auth().currentUser.email);
+        console.log(email);
           Geolocation.watchPosition(
               (position) => {
                   setWatchPosition(() => position.coords);
@@ -60,8 +64,23 @@ export function CreateHome({navigation}) {
                   console.log('rip')
               }
           );
-        }, 
-    [homeGeocode]);
+
+        /* axios.get('http://localhost:5000/search/getHouseCodes')
+        .then(response => {
+          let data = response.data;
+          data.forEach
+        }).catch();  */
+
+        });
+
+
+    // getting user location in database
+    useMemo(() => addHouse(houseid, email, homeName), [homeGeocode]);
+    /*useEffect(() => {
+      addHouse(houseid, email, homeName);
+
+    }, [homeGeocode]);*/
+
 
     // fetching all houses
     const getHouseCodes = () => {
@@ -81,12 +100,15 @@ export function CreateHome({navigation}) {
         return houseCodes;
     }
 
-    async function addHouse (code, email, longitude, latitude, name) {
+    async function addHouse (code, email, name) {
       console.log(homeAddress);
       console.log(homeGeocode);
+      console.log(watchPosition);
 
       let longitudeNum = parseFloat(homeGeocode.longitude);
       let latitudeNum = parseFloat(homeGeocode.latitude);
+
+      let at_Home = userAtHome(watchPosition.longitude, watchPosition.latitude, homeGeocode.longitude, homeGeocode.latitude);
 
       const homeObj = {
         code: code, 
@@ -95,11 +117,14 @@ export function CreateHome({navigation}) {
         latitude: latitudeNum,
         houseName: name,
         address: homeAddress
+        isCurrentHome: true,
+        isAtHome: at_Home,
       };
 
       axios.post('http://localhost:5000/update/setHome', homeObj)
       .then(response => {
         console.log(`added house ${code} to firestore!`);
+        console.log(`atHome: ${at_Home}`);
       })
       .catch(error => {
       console.log(error);
@@ -119,46 +144,61 @@ export function CreateHome({navigation}) {
       return false;
     }
 
+
+    const makeHouseCode = () => {
+      let exists = true;
+      const houseCodes = getHouseCodes();
+      do {
+        //create random 4-num iD
+        for (let i = 0; i < 4; i++) {
+          let val = Math.floor(Math.random() * 10);
+          houseid = houseid + val.toString();
+        }
+        console.log("in while loop");
+        console.log(houseCodes);
+        exists = codeExists(houseCodes, houseid);
+        console.log(exists);
+
+      } while (exists);
+    }
+
+
     const useCurrentLocation = () => {
-      // set home address to watchPosition in Firebase
-      console.log(watchPosition);
+      makeHouseCode();
+
+      const homeObj = {
+        code: houseid, 
+        email: email, 
+        longitude: watchPosition.longitude,
+        latitude: watchPosition.latitude,
+        houseName: homeName,
+        isAtHome: true,
+        isCurrentHome: true,
+      };
+
+      axios.post('http://localhost:5000/update/setHome', homeObj)
+      .then(response => {
+        console.log(`added house ${houseid} to firestore!`);
+      })
+      .catch(error => {
+      console.log(error);
+      });
+      
+      navigation.navigate('home');
+
     }
 
     async function onCreatePress() {
       if (!(homeAddress == "")) {
-        let exists = true;
-        const houseCodes = getHouseCodes();
-        do {
-          //create random 4-num iD
-          for (let i = 0; i < 4; i++) {
-            let val = Math.floor(Math.random() * 10);
-            houseid = houseid + val.toString();
-          }
-          console.log("in while loop");
-          console.log(houseCodes);
-          exists = codeExists(houseCodes, houseid);
-          console.log(exists);
-
-        } while (exists);
-
-        // REPLACE WHEN AUTHENTICATION SET UP; use current user email
-        console.log('got here');
-        // if doesn't exist, add a house
-        
-        /*
-        geocoding(homeAddress)
-        .then(() => {
-          addHouse(houseid, tempUsername, 12, 12, homeName);
-        })
-        .catch(error => {
-          console.log(error);
-        });*/
+        makeHouseCode();
+        geocoding(homeAddress);
         
         console.log("next step");
-        navigation.navigate('home');
+        navigation.navigate('home', watchPosition);
 
       }
     }
+    
     
     if(!watchPosition) {
       return(

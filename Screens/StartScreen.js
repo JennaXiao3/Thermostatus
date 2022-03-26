@@ -4,11 +4,15 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Button, PermissionsAndroid } from 'react-native';
 import { requestAuthorization } from 'react-native-geolocation-service';
 import Geolocation from 'react-native-geolocation-service';
+import axios from 'axios';
+import { firebase } from '../src/constants/FirebaseConfig';
+
 
 export const StartScreen = ({navigation}) => {
 
     const [positionNow, setPositionNow] = useState(null);
     const [ watchPosition, setWatchPosition ] = useState(null);
+    const [usernameCurr, setUsernameCurr] = useState("hi");
  
     //geolocation upon mounting
     useEffect(
