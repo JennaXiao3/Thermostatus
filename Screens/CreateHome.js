@@ -8,6 +8,8 @@ import { LocationItem } from '../src/components/LocationItem';
 import axios from 'axios';
 import Geolocation from 'react-native-geolocation-service';
 
+import extstyles from '../src/components/Style';
+
 // firebase
 import { firebase } from '../src/constants/FirebaseConfig';
 import { PanResponder } from 'react-native-web';
@@ -215,22 +217,27 @@ export function CreateHome({navigation}) {
             onChangeText = {text => setHomeAddress(text)}
           />
 
-          <TouchableOpacity
-            onPress={useCurrentLocation}
-            style = {[styles.button, {marginBottom: 5}]}>
-            <Text style={styles.buttonText}>Use Current Location</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
+          <View style={extstyles.buttonContainer}>
+            <TouchableOpacity
+              onPress={useCurrentLocation}
+              style = {[extstyles.buttonOutline]}>
+              <Text style={extstyles.buttonOutlineText}>Use Current Location</Text>
+            </TouchableOpacity>
+          </View>
+          
+          <View style={extstyles.buttonContainer}>
+            <TouchableOpacity
               onPress = {onCreatePress}
-              style = {styles.button}
+              style = {extstyles.buttonOutline}
               >
-                <Text style={styles.buttonText}>Next</Text>
-          </TouchableOpacity>
+                <Text style={extstyles.buttonOutlineText}>Next</Text>
+            </TouchableOpacity>
+          </View>
 
-          <TouchableOpacity onPress={() => console.log(homeGeocode)}>
+
+          {/*<TouchableOpacity onPress={() => console.log(homeGeocode)}>
             <Text>checking setGeocode</Text>
-          </TouchableOpacity>
+          </TouchableOpacity>*/}
         </View>
       );
     }
@@ -242,6 +249,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   textInput: {
     height: 40,

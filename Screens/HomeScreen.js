@@ -241,10 +241,10 @@ export const HomeScreen = ({navigation, route}, props) => {
                 </View>
               </TouchableOpacity>
 
-              {/*for testing purposes */}
+              {/*for testing purposes 
               <TouchableOpacity onPress={handlePressUser}>
                 <Text>printing user infooo</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
             </View>
         </View>
         );
