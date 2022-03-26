@@ -105,6 +105,7 @@ export function CreateHome({navigation}) {
         longitude: longitudeNum,
         latitude: latitudeNum,
         houseName: name,
+        address: homeAddress,
         isCurrentHome: true,
         isAtHome: at_Home,
       };

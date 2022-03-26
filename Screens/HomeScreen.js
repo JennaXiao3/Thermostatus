@@ -28,7 +28,9 @@ import { manageTemp } from '../helpers/temp';
 
 const intervalOfChange = 8000; //that is for demo purposes: for real, 600000
 
+
 export const HomeScreen = ({navigation, route}, props) => {
+
 
     const [positionNow, setPositionNow] = useState(null);
     const [ watchPosition, setWatchPosition ] = useState({latitude: 0, longitude: 0});
@@ -264,8 +266,6 @@ export const HomeScreen = ({navigation, route}, props) => {
 
 
 
-
-
 const styles = StyleSheet.create({
     screenContainer: {
       flex: 1,
@@ -314,26 +314,19 @@ const styles = StyleSheet.create({
       width: 35,
       marginRight: '10%'
     },
-    homeNameContainer: {
-      height: 120,
-      width: '83%',
-      justifyContent: 'center',
-      alignContent: 'flex-end',
-      paddingTop: '8%',
-      flexDirection: 'row'
-    },
     homeName: {
       textAlign: 'center',
       color: '#F0F0F0',
       fontWeight: '600',
       fontSize: 20,
     },
-    downArrow: {
-      width: 20,
-      height: 20,
-    },
-    downArrowButton: {
-      marginRight: '3%'
+    manageHomesButton: {
+      backgroundColor: 'rgba(0,0,0,0.2)',
+      marginTop: '10%',
+      justifyContent: 'center',
+      padding: 18,
+      paddingHorizontal: 35,
+      borderRadius: 50,
     },
     tempCircle: {
       width: '100%',
