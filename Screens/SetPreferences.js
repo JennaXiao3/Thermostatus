@@ -37,7 +37,7 @@ export const SetPreferences = ({navigation, route}, props) => {
         console.log(error);
       });
       console.log('here!');
-     navigation.navigate('home', {startTemp: 23});
+     navigation.navigate('home', {startTemp: temp});
   }
 
   return (

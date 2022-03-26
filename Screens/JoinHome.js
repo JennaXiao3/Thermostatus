@@ -46,7 +46,7 @@ export const JoinHome = ({navigation}, props) => {
         console.log(error);
       })
 
-      navigation.navigate('home', {houseCode: {totalCode}, startTemp: 22});
+      navigation.navigate('home', {houseCode: totalCode, startTemp: 22});
   }
 
   const getHouseCodes = async () => {

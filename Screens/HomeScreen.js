@@ -26,7 +26,7 @@ import { userAtHome } from '../helpers/location';
 import { manageTemp } from '../helpers/temp';
 
 
-const intervalOfChange = 4000; //60000
+const intervalOfChange = 8000; //that is for demo purposes: for real, 600000
 
 export const HomeScreen = ({navigation, route}, props) => {
 
@@ -39,7 +39,8 @@ export const HomeScreen = ({navigation, route}, props) => {
     const [houseCoords, setHouseCoords] = useState({latitude: 0, longitude: 0});
     const [houseCode, setHouseCode] = useState(route.params.houseCode);
     const [currTemp, setCurrTemp] = useState(route.params.startTemp);
-    // let flag = true;
+    const [changingTempFlag, setChangingTempFlag] = useState(true);
+    let first = true;
  
 
     useEffect(
@@ -59,15 +60,18 @@ export const HomeScreen = ({navigation, route}, props) => {
             { enableHighAccuracy: true}
 
         );
-
-        manageTemp(houseCode)
-            .then((success) => {
-                console.log(success);
-                setCurrTemp(success);
-            })
-            .catch((error) => console.log(error));
+        if (first) {
+          manageTemp(houseCode)
+         .then((success) => {
+             console.log(success);
+             setCurrTemp(success);
+         }).catch((error) => console.log(error));
+         first = false;
+        }
+        
 
         checkingGeo();
+        changingTemp();
         }, 
     []);
 
@@ -81,13 +85,6 @@ export const HomeScreen = ({navigation, route}, props) => {
             const houseCode = firstResponse.data;
             console.log(houseCode);
             setHouseCode(houseCode);
-
-            manageTemp(houseCode)
-            .then((success) => {
-                console.log(success);
-                setCurrTemp(success);
-            })
-            .catch((error) => console.log(error));
             
              
             const secondResponse = await axios.get(`http://localhost:5000/search/getHouseCoords/${houseCode}`);
@@ -103,6 +100,20 @@ export const HomeScreen = ({navigation, route}, props) => {
 
     }
 
+    const changingTemp = () => {
+      setInterval(() => {
+        setChangingTempFlag((prev) => !prev);
+    }, [intervalOfChange / 2]);
+    }
+
+    useEffect(() => {
+      manageTemp(houseCode)
+         .then((success) => {
+             console.log(success);
+             setCurrTemp(success);
+         }).catch((error) => console.log(error));
+
+    }, [changingTempFlag]);
 
     useEffect(() => {
         // console.log('hi, line 58');
@@ -113,24 +124,13 @@ export const HomeScreen = ({navigation, route}, props) => {
         let isAtHome = userAtHome(watchPosition.longitude, watchPosition.latitude, houseCoords.longitude, houseCoords.latitude);
         setAtHome(isAtHome);
 
-       
-        
         let data = {
             code: houseCode,
             email: email,
             isAtHome: isAtHome,
         }
-
         // update so user is atHome
         const awaiting = await axios.post(`http://localhost:5000/update/updateStatus`, data);
-
-         // change temperature of house
-         manageTemp(houseCode)
-         .then((success) => {
-             console.log(success);
-             setCurrTemp(success);
-         })
-         .catch((error) => console.log(error));
     }
 
 
