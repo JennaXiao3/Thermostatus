@@ -33,38 +33,18 @@ export const ManageHomes = ({navigation, route}, props) => {
     const [homes, setHomes] = useState([]); // Initial empty array of homes
     const [info, setInfo] = useState([]);
     const [newHouseCode, setNewHouseCode] = useState(route.params.houseCode);
-    
+    const [justOnce, setJustOnce] = useState(true);
+        
     let userEmail = firebase.auth().currentUser.email;
-    
-    /*
-    useEffect(() => {
-      axios.get('http://localhost:5000/search/getHouseFields', userEmail)
-        .then(response => {
-          let data = response.data;
-            console.log(response.data);
-            //updatingInfo();
-            
-            data.forEach((item) => {
-              info.push(item);
-            });
-  
-        }).catch(error => {
-          console.log(error);
-        });
-      
-        console.log(info);
-    });*/
-    
-    /*
-    
-    const updatingInfo = () => {
-      setInfo((prev) => [...prev, "hi"]);
-    }
-    
-    if (loading) {
-      return <ActivityIndicator />;
-    }
-    */
+    useEffect( () => {
+      axios.get(`http://localhost:5000/search/getHouseFields/${userEmail}`)
+      .then((res) => {
+        console.log(res.data);
+        console.log(res.id);
+        setInfo(res.data);
+      })
+      .catch((err) => console.log(err));
+    });
 
    
 

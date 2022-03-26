@@ -52,72 +52,38 @@ router.get('/getHouseCodes', async function (req, res) {
 
 
 // getting all fields for a certain house id
-router.get('/getHouseFields', async function (req, res) {
+router.get('/getHouseFields/:email', async function (req, res) {
   try{
-
-    /*
-    req body looks like this
-      {
-        email: [the email of the user who created it]
-      }
-    */
-   //console.log(req.body.houseId);
-
-   /*
-    const houseId = req.body.houseId;
-    const houseSnapshot = await db.db.collection("houses").doc(houseId).get();
-    let done = houseSnapshot.data();
-    
-    const email = req.body.email;
-    const currentHomeSnapshot = await db.db.collection("users").doc(email).collection("houses").doc(houseId).get();
-    let currentHome = currentHomeSnapshot.data().isCurrentHome;
-    
-    let count = 0;
-    const usersSnapshot = await db.db.collection("houses").doc(houseId).collection("users").get();
-    usersSnapshot.forEach((item) => {
-      count++;
-    });
-
-    done["numOfPeople"] = count;
-    done["isCurrentHome"] = currentHome;
-
-    res.send(lots);*/
-
-    // ---------------------------
-
     let codes = [];
     let total = 0;
-    const email = req.body.email;
-    let result = [];
 
-    const homesSnapshot = await db.db.collection("users").doc(req.body.email).collection("houses").get();
+    const email = req.params.email;
+    
+    let result = [];
+    const homesSnapshot = await db.db.collection("users").doc(email).collection("houses").get();
     homesSnapshot.forEach((e)=>{
       codes.push(e.id);
       total++;
     });
-
     for (let i = 0; i < total; i++) {
-
       const houseId = codes[i];
-      
       const houseSnapshot = await db.db.collection("houses").doc(houseId).get();
-      let done = houseSnapshot.data();
-
+      //let done = houseSnapshot.data();
+      let done = {
+        name: houseSnapshot.data().houseName,
+        address: houseSnapshot.data().address
+      }
       const currentHomeSnapshot = await db.db.collection("users").doc(email).collection("houses").doc(houseId).get();
       let currentHome = currentHomeSnapshot.data().isCurrentHome;
-      
       let count = 0;
       const usersSnapshot = await db.db.collection("houses").doc(houseId).collection("users").get();
       usersSnapshot.forEach((item) => {
         count++;
       });
-
       done["numOfPeople"] = count;
       done["isCurrentHome"] = currentHome;
-
       result.push(done);
     }
-    
     res.send(result);
     //res.send(result);
   } catch (err) {
