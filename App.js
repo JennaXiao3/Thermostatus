@@ -10,7 +10,7 @@ import { firebase } from './src/constants/FirebaseConfig';
 //importing screen components
 import { StartScreen } from './Screens/StartScreen.js';
 import { HomeScreen } from './Screens/HomeScreen.js';
-import { ManageHomes } from './Screens/ManageHomesScreen';
+import { ManageHomes } from './Screens/ManageHomes';
 import { LoginScreen } from './Screens/LoginScreen';
 import { SignupScreen } from './Screens/SignupScreen';
 import { AddThermostat } from './Screens/AddThermostat';
@@ -58,7 +58,7 @@ export default function App() {
         <Stack.Screen name='start' component={StartScreen} />
         <Stack.Screen name='login' component={LoginScreen} />
         <Stack.Screen name='signup' component={SignupScreen} />
-        <Stack.Screen name='managehomes' component={ManageHomes}/>
+        <Stack.Screen name='managehomes' component={ManageHomes} options={{ headerShown: false }}/>
         <Stack.Screen name='addthermostat' component={AddThermostat}/>
         <Stack.Screen name='joinhome' component={JoinHome}/>
         <Stack.Screen name='createhome' component={CreateHome}/>
