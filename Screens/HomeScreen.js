@@ -26,7 +26,7 @@ import { userAtHome } from '../helpers/location';
 import { manageTemp } from '../helpers/temp';
 
 
-const intervalOfChange = 8000; //that is for demo purposes: for real, 600000
+const intervalOfChange = 10000; //that is for demo purposes: for real, 600000
 
 export const HomeScreen = ({navigation, route}, props) => {
 

@@ -147,6 +147,7 @@ router.post('/joinHome', async function (req, res) {
   }
 })
 
+
   module.exports = router;
 
 router.post('/updateStatus', async function (req, res) {
