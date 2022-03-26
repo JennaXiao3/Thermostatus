@@ -28,25 +28,26 @@ export const JoinHome = ({navigation}, props) => {
     console.log(houseCodes);
     
     if (!works) {
-      alert(`Code ${totalCode} doesn't exist! Try again.`);
+      //alert(`Code ${totalCode} doesn't exist! Try again.`);
       console.log(`Code ${totalCode} doesn't exist! Try again.`);
       return;
     }
 
 
     let data = {
-      code: code,
+      code: totalCode,
       email: firebase.auth().currentUser.email
     }
 
-    await axios.post('http://localhost:5000/update/joinHome', data)
+    axios.post('http://localhost:5000/update/joinHome', data)
       .then(response => {
         console.log(response);
+        
       }).catch(error => {
         console.log(error);
       })
-
       navigation.navigate('home', {houseCode: totalCode, startTemp: 22});
+      
   }
 
   const getHouseCodes = async () => {
@@ -188,13 +189,11 @@ const styles = StyleSheet.create({
   },
   bigTitle: {
     fontSize: 26,
-    fontFamily: 'Avenir',
     fontWeight: 900,
   },
   subTitle: {
     fontSize: 18,
-    fontWeight: 800,
-    fontFamily: 'Avenir',
+    fontWeight: 400,
     paddingTop: 10,
     paddingBottom: 10
   },
@@ -210,8 +209,7 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontSize: 16,
-    fontWeight: 800,
-    fontFamily: 'Avenir'
+    fontWeight: 600,
   }, pinInputContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -227,7 +225,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center'
   }, textInputText: {
-    fontFamily: 'Avenir',
     fontStyle: "normal",
     fontWeight: 800,
     fontSize: 16,
@@ -239,6 +236,5 @@ const styles = StyleSheet.create({
     padding: 10
   },
   })
-
 
 
