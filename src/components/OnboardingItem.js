@@ -1,10 +1,15 @@
 import { View, Text, StyleSheet, FlatList, Image, useWindowDimensions } from 'react-native'
 import React from 'react'
 
+
+
+
+
+
+
 export const OnboardingItem = ({ item }) => {
-
-  const { width } = useWindowDimensions();
-
+  const {width}  = useWindowDimensions();
+  
   let img = require('../assets/slide3.png');
 
   if (item.image == '../assets/slide1.png') {
@@ -14,9 +19,10 @@ export const OnboardingItem = ({ item }) => {
   }
 
   return (
-    <View style={[styles.container, { width }]}>
+    <View style={[styles.container, { width: width }]}>
       <View style={styles.imageContainer}>
         <Image source={img} style={styles.image}/>
+        <Text>{width}</Text>
       </View>
       <View style={styles.info}>
         <Text style={styles.title}>{item.title}</Text>

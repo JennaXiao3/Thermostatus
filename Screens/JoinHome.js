@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { firebase } from '../src/constants/FirebaseConfig';
 import axios from 'axios';
 import { KeyboardAvoidingView } from 'react-native-web';
@@ -7,23 +7,62 @@ import { KeyboardAvoidingView } from 'react-native-web';
 
 
 export const JoinHome = ({navigation}, props) => {
-    const [code, setCode] = useState('')
+    const [code, setCode] = useState('');
+    //const [houseCodes, setHouseCodes] = useState([]);
 
-    const onJoinPress = () => {
+
+    const onJoinPress = async () => {
+      const houseCodes = await getHouseCodes();
+      const works = codeExists(houseCodes, code);
+      console.log(houseCodes);
       
-      navigation.navigate('home');
+      if (!works) {
+        alert("Code doesn't exist! Try again.");
+        return;
+      }
+
 
       let data = {
         code: code,
         email: firebase.auth().currentUser.email
       }
 
-      axios.post('http://localhost:5000/update/joinHome', data)
+      await axios.post('http://localhost:5000/update/joinHome', data)
         .then(response => {
           console.log(response);
         }).catch(error => {
           console.log(error);
         })
+
+        navigation.navigate('home', {houseCode: "1234", startTemp: 22});
+    }
+
+    const getHouseCodes = async () => {
+      let houseCodes = [];
+      await axios.get('http://localhost:5000/search/getHouseCodes')
+        .then(response => {
+          let data = response.data;
+          console.log(response.data);
+          data.forEach((item) => {
+            houseCodes.push(item);
+          });
+
+        }).catch(error => {
+          console.log(error);
+        });
+      
+        return houseCodes;
+    }
+
+    const codeExists = (data, code) => {
+      console.log(code);
+      let len = data.length;
+      for (let i = 0; i < len; ++i) {
+        if (data[i] == code) {
+          return true;
+        }
+      }
+      return false;
     }
 
     return (

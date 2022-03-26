@@ -18,12 +18,22 @@ export const Onboarding = ()=> {
 
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50}).current;
 
+
+  const testPrint = () => {
+    console.log(slides);
+  }
+
+
   return (
     <View style={styles.container}>
-      <View style={{flex : 3}}>
+      <View style={{flex : 3, flexDirection: "row"}}>
+        <View style={{width: "98vh", height: "100%"}}>
+
+        </View>
+
         <FlatList 
           data={slides} 
-          contentContainerStyle={{flex: 1}}
+          contentContainerStyle={{flex: 2}}
           renderItem={({ item }) => <OnboardingItem item={item}/>} 
           horizontal
           showsHorizontalScrollIndicator
@@ -35,8 +45,8 @@ export const Onboarding = ()=> {
           })}
           scrollEventThrottle={32}
           onViewableItemsChanged={viewableItemsChanged}
-          viewabilityConfig={viewConfig}
-          ref={slidesRef}
+          //viewabilityConfig={viewConfig}
+          // ref={slidesRef}
         />
       </View>
     </View>
@@ -45,10 +55,11 @@ export const Onboarding = ()=> {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    //marginLeft: "-vh",
   },
   list: {
     flex: 1,

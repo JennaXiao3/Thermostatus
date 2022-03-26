@@ -15,6 +15,7 @@ import { PanResponder } from 'react-native-web';
 const database = firebase.database();
 let houseid = "";
 const tempUsername = "cocopuff@gmail.com";
+const defaultTemp = 22;
 
 //location helper
 import { userAtHome } from '../helpers/location';
@@ -193,7 +194,7 @@ export function CreateHome({navigation}) {
         geocoding(homeAddress);
         
         console.log("next step");
-        navigation.navigate('home', watchPosition);
+        navigation.navigate('home', {houseCode: route.params.houseCode, startTemp: defaultTemp});
 
       }
     }
