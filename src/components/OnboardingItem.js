@@ -24,8 +24,6 @@ export const OnboardingItem = ({ item }) => {
       <View style={[styles.container, { width: width }]}>
         <View style={styles.imageContainer}>
           <Image source={img} style={styles.image}/>
-          <Text>{width}</Text>
-          <Text>{id}</Text>
         </View>
         <View style={styles.info}>
           <Text style={styles.title}>{item.title}</Text>
@@ -46,7 +44,6 @@ export const OnboardingItem = ({ item }) => {
     <View style={[styles.container, { width: width }]}>
       <View style={styles.imageContainer}>
         <Image source={img} style={styles.image}/>
-        <Text>{width}</Text>
       </View>
       <View style={styles.info}>
         <Text style={styles.title}>{item.title}</Text>
@@ -68,28 +65,29 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   image: {
-    height: 200,
-    width: '75%',
+    height: 323,
+    width: '80%',
     paddingHorizontal: 30,
-    marginBottom: '25%',
-    marginTop: '100%'
+    marginBottom: '20%',
+    marginTop: '75%'
   },
   info: {
     flex: 3,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   title: {
     fontWeight: '800',
-    fontSize: 28,
-    marginBottom: 10,
+    fontSize: 24,
+    marginBottom: 20,
     color: '#3F3E55',
     textAlign: 'center',
+    paddingHorizontal: 30
   },
   description: {
     fontWeight: '300',
     color: '#3F3E55',
     textAlign: 'center',
-    paddingHorizontal: 64
+    paddingHorizontal: 40
   }, buttonText: {
     fontSize: 16,
   }, buttonNext: {
