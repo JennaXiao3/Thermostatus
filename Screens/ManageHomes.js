@@ -20,16 +20,19 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { firebase } from '../src/constants/FirebaseConfig';
 import axios from 'axios';
+const defaultTemp = 22;
+
 
 const { width, height } = Dimensions.get('screen')
 const BG_IMG = require('../src/assets/homeBackground.png');
 const SPACING = 20;
 const HOME_ICON = 60;
 
-export const ManageHomes = ({navigation}, props) => {
+export const ManageHomes = ({navigation, route}, props) => {
     const [loading, setLoading] = useState(true); // Set loading to true on component mount
     const [homes, setHomes] = useState([]); // Initial empty array of homes
     const [info, setInfo] = useState([]);
+    const [newHouseCode, setNewHouseCode] = useState(route.params.houseCode);
     
     let userEmail = firebase.auth().currentUser.email;
     
@@ -69,7 +72,7 @@ export const ManageHomes = ({navigation}, props) => {
         <View style={styles.screenContainer}>
           <View style={styles.homeHeading}>
             <TouchableOpacity 
-              onPress={() => navigation.navigate('home')}
+              onPress={() => navigation.navigate('home', {houseCode: newHouseCode, startTemp: defaultTemp})}
               style={styles.arrowLeft}
             >
               <AntDesign name="arrowleft" size={24} color="white"/>

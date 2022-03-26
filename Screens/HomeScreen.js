@@ -185,7 +185,7 @@ export const HomeScreen = ({navigation, route}, props) => {
                 </View>
                 <TouchableOpacity 
                   style={styles.manageHomesButton}
-                  onPress={() => navigation.navigate('managehomes')}
+                  onPress={() => navigation.navigate('managehomes', {houseCode: houseCode})}
                 >
                   <Text style={styles.homeName}>Manage Homes</Text>
                 </TouchableOpacity>
@@ -222,7 +222,7 @@ export const HomeScreen = ({navigation, route}, props) => {
                 </View>
                 <TouchableOpacity 
                   style={styles.manageHomesButton}
-                  onPress={() => navigation.navigate('managehomes')}
+                  onPress={() => navigation.navigate('managehomes', {houseCode: houseCode})}
                 >
                   <Text style={styles.homeName}>Manage Homes</Text>
                 </TouchableOpacity>
