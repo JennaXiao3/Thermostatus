@@ -35,19 +35,18 @@ export const JoinHome = ({navigation}, props) => {
 
 
     let data = {
-      code: totalCode,
+      code: code,
       email: firebase.auth().currentUser.email
     }
 
-    axios.post('http://localhost:5000/update/joinHome', data)
+    await axios.post('http://localhost:5000/update/joinHome', data)
       .then(response => {
         console.log(response);
-        
       }).catch(error => {
         console.log(error);
       })
+
       navigation.navigate('home', {houseCode: totalCode, startTemp: 22});
-      
   }
 
   const getHouseCodes = async () => {

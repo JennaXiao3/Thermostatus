@@ -15,7 +15,7 @@ import {
   FlatList,
   ActivityIndicator
 } from 'react-native';
-// import info from '../src/constants/data';
+import info from '../src/constants/data';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { firebase } from '../src/constants/FirebaseConfig';
@@ -33,21 +33,8 @@ export const ManageHomes = ({navigation, route}, props) => {
     const [homes, setHomes] = useState([]); // Initial empty array of homes
     const [info, setInfo] = useState([]);
     const [newHouseCode, setNewHouseCode] = useState(route.params.houseCode);
-    const [justOnce, setJustOnce] = useState(true);
     
     let userEmail = firebase.auth().currentUser.email;
-    
-    useEffect( () => {
-      axios.get(`http://localhost:5000/search/getHouseFields/${userEmail}`)
-      .then((res) => {
-        console.log(res.data);
-        console.log(res.id);
-        
-        setInfo(res.data);
-      })
-      .catch((err) => console.log(err));
-
-   
     
     /*
     useEffect(() => {
@@ -70,8 +57,11 @@ export const ManageHomes = ({navigation, route}, props) => {
     
     /*
     
-    });
-    oading) {
+    const updatingInfo = () => {
+      setInfo((prev) => [...prev, "hi"]);
+    }
+    
+    if (loading) {
       return <ActivityIndicator />;
     }
     */
