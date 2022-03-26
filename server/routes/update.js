@@ -42,7 +42,8 @@ router.post('/setHome', async function (req, res) {
         email: [the email of the user who created it]
         longitude: [of home]
         latitude: [of home]
-        houseName: [homeName] 
+        houseName: [homeName],
+        address: [address of home]
       }
     */
 
@@ -53,7 +54,8 @@ router.post('/setHome', async function (req, res) {
     const longitude = Number(req.body.longitude);
     
     await db.db.collection("houses").doc(req.body.code).set({
-      houseName: req.body.houseName
+      houseName: req.body.houseName,
+      address: req.body.address
     })
 
     await db.db.collection("houses").doc(req.body.code).collection("location").doc("geopoint").set({

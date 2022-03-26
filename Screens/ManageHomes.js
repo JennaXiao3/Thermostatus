@@ -12,11 +12,14 @@ import {
   Dimensions, 
   Touchable, 
   TouchableOpacity, 
-  FlatList 
+  FlatList,
+  ActivityIndicator
 } from 'react-native';
 import info from '../src/constants/data';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { firebase } from '../src/constants/FirebaseConfig';
+import axios from 'axios';
 
 const { width, height } = Dimensions.get('screen')
 const BG_IMG = require('../src/assets/homeBackground.png');
@@ -24,6 +27,42 @@ const SPACING = 20;
 const HOME_ICON = 60;
 
 export const ManageHomes = ({navigation}, props) => {
+    const [loading, setLoading] = useState(true); // Set loading to true on component mount
+    const [homes, setHomes] = useState([]); // Initial empty array of homes
+    //const [info, setInfo] = useState([]);
+    
+    let userEmail = firebase.auth().currentUser.email;
+    /*
+    useEffect(() => {
+      axios.get('http://localhost:5000/search/getHouseFields', userEmail)
+        .then(response => {
+          let data = response.data;
+            console.log(response.data);
+            updatingInfo();
+            
+            data.forEach((item) => {
+              info.push(item);
+            });
+  
+        }).catch(error => {
+          console.log(error);
+        });
+      
+        console.log(info);
+    });
+    
+
+    
+    const updatingInfo = () => {
+      setInfo((prev) => [...prev, "hi"]);
+    }
+    
+    if (loading) {
+      return <ActivityIndicator />;
+    }
+    
+
+   */
 
     return(
         <View style={styles.screenContainer}>

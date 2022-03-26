@@ -93,7 +93,8 @@ export function CreateHome({navigation}) {
         email: email, 
         longitude: longitudeNum,
         latitude: latitudeNum,
-        houseName: name
+        houseName: name,
+        address: homeAddress
       };
 
       axios.post('http://localhost:5000/update/setHome', homeObj)
