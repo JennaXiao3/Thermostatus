@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   buttonNext: {
     width: 100,
     height: 50,
-    backgroundColor: '#F1B104',
+    backgroundColor: '#A9AB66',
     flex: 1,
     marginLeft: '400%',
     borderRadius: 50,
