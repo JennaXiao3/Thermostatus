@@ -265,17 +265,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingTop: 100,
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  bigTitle: {
-    fontSize: 36,
-    textAlign: 'center'
-  },
-  subTitle: {
-    fontSize: 16,
-    paddingTop: 10,
-    paddingBottom: 50,
-    textAlign: 'center'
+    alignItems: 'center',
+    marginBottom: '3vh'
   },
   button: {
     marginTop: 20,
@@ -284,11 +275,21 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingTop: 10,
     paddingBottom: 10,
-    marginBottom: 80
+    marginBottom: 30
   },
   buttonText: {
     color: '#fff',
     textAlign: 'center',
     fontSize: 16
-  }
+  },
+  bigTitle: {
+    fontSize: 26,
+    fontWeight: 900,
+  },
+  subTitle: {
+    fontSize: 18,
+    fontWeight: 400,
+    paddingTop: 10,
+    paddingBottom: 10
+  },
 }) 

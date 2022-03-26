@@ -88,7 +88,7 @@ export const JoinHome = ({navigation}, props) => {
           >
           <View style = {styles.titleContainer}>
             <Text style = {styles.bigTitle}>Join a Home</Text>
-            <Text style = {styles.subTitle}>Ask the homeowner for the code to join!</Text>
+            <Text style = {styles.subTitle}>Ask the homeowner for the code!</Text>
           </View>
 
 
